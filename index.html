@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speak Up! · 통일초등학교 영어 스피킹</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2d2b4e; --ink-soft:#6b6890;
+    --card:#ffffff; --paper:#fef7e6;
+    --mint:#54d6a3; --sky:#2ba7e0; --coral:#ff7a4d; --grape:#9b7bff;
+    --shadow:0 18px 40px rgba(45,43,78,.16);
+    --shadow-sm:0 8px 18px rgba(45,43,78,.12);
+    --accent:var(--mint); --accent-soft:rgba(84,214,163,.16);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Nunito',sans-serif;color:var(--ink);min-height:100vh;
+    background:
+      radial-gradient(circle at 12% 14%, rgba(255,206,61,.32), transparent 40%),
+      radial-gradient(circle at 88% 10%, rgba(94,201,245,.36), transparent 44%),
+      radial-gradient(circle at 80% 90%, rgba(84,214,163,.30), transparent 42%),
+      radial-gradient(circle at 16% 92%, rgba(155,123,255,.26), transparent 40%),
+      #fef7e6;
+    display:flex;flex-direction:column;align-items:center;padding:20px 16px 44px;overflow-x:hidden;
+  }
+  .app{position:relative;z-index:2;width:100%;max-width:580px;display:flex;flex-direction:column;gap:18px;}
+
+  /* header */
+  header{display:flex;align-items:flex-start;gap:13px;padding:2px 4px;}
+  .mascot{width:66px;height:66px;flex:none;border-radius:50%;display:grid;place-items:center;font-size:36px;
+    background:linear-gradient(160deg,#ffce3d,#ffb017);box-shadow:var(--shadow-sm);animation:bob 3.2s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-6px) rotate(3deg);}}
+  .title .school{display:inline-block;font-weight:900;font-size:.72rem;color:#fff;background:var(--accent);
+    padding:3px 10px;border-radius:999px;margin-bottom:5px;box-shadow:var(--shadow-sm);letter-spacing:.2px;}
+  .title h1{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.65rem;line-height:1;letter-spacing:-.5px;}
+  .title h1 .kor{font-family:'Nunito',sans-serif;font-weight:900;}
+  .title h1 span#brand{color:var(--accent);}
+  .title p{font-weight:800;color:var(--ink-soft);font-size:.86rem;margin-top:4px;}
+  .score-pill{margin-left:auto;background:#fff;border-radius:999px;padding:9px 14px;font-family:'Fredoka',sans-serif;
+    font-weight:600;font-size:1rem;color:#ffb017;box-shadow:var(--shadow-sm);align-self:center;}
+
+  /* home grade cards */
+  .home-intro{font-weight:800;color:var(--ink-soft);text-align:center;font-size:1rem;margin-top:6px;}
+  .grades{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .gcard{border:none;cursor:pointer;text-align:left;border-radius:26px;padding:20px 18px;color:#fff;
+    box-shadow:var(--shadow);transition:transform .15s;font-family:'Nunito',sans-serif;position:relative;overflow:hidden;}
+  .gcard:hover{transform:translateY(-4px) rotate(-1deg);}
+  .gcard .gemoji{font-size:42px;display:block;}
+  .gcard .gnum{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.5rem;margin-top:8px;}
+  .gcard .gtopic{font-weight:800;font-size:.92rem;opacity:.95;margin-top:2px;}
+  .gcard .soon{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.28);font-weight:900;
+    font-size:.66rem;padding:3px 8px;border-radius:999px;z-index:2;}
+  .gcard::after{content:"";position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.16);right:-40px;bottom:-50px;}
+  .g3{background:linear-gradient(150deg,#54d6a3,#1fb27a);}
+  .g4{background:linear-gradient(150deg,#5ec9f5,#2287d8);}
+  .g5{background:linear-gradient(150deg,#ff9a5a,#ff6a3d);}
+  .g6{background:linear-gradient(150deg,#b08bff,#7a52e8);}
+
+  /* generic card */
+  .card{background:var(--card);border-radius:28px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+
+  /* top bar */
+  .topbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .back{border:none;cursor:pointer;background:#fff;color:var(--ink);font-weight:800;font-size:.9rem;
+    padding:9px 14px;border-radius:14px;box-shadow:var(--shadow-sm);font-family:'Nunito',sans-serif;}
+  .crumb{font-weight:900;color:var(--ink-soft);font-size:.9rem;}
+  .tabs{display:flex;gap:8px;margin-left:auto;}
+  .tab{border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:.88rem;
+    padding:9px 16px;border-radius:14px;background:#fff;color:var(--ink-soft);box-shadow:var(--shadow-sm);}
+  .tab.active{background:var(--accent);color:#fff;}
+
+  /* lesson list */
+  .lessons{display:flex;flex-direction:column;gap:11px;}
+  .lcard{border:none;cursor:pointer;text-align:left;background:#fff;border-radius:20px;padding:14px 16px;
+    box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:14px;font-family:'Nunito',sans-serif;
+    transition:transform .14s, box-shadow .14s;position:relative;overflow:hidden;border-left:7px solid var(--accent);}
+  .lcard:hover{transform:translateX(4px);box-shadow:var(--shadow);}
+  .lcard .lnum{width:40px;height:40px;flex:none;border-radius:13px;display:grid;place-items:center;
+    background:var(--accent-soft);color:var(--accent);font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.15rem;}
+  .lcard .lemoji{font-size:30px;flex:none;}
+  .lcard .ltext{flex:1;min-width:0;}
+  .lcard .lt{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.12rem;line-height:1.1;color:var(--ink);}
+  .lcard .lk{font-weight:800;color:var(--ink-soft);font-size:.82rem;margin-top:2px;}
+  .lcard .larrow{color:var(--accent);font-weight:900;font-size:1.2rem;flex:none;}
+  .empty-note{background:#fff;border-radius:24px;padding:34px 22px;text-align:center;box-shadow:var(--shadow);}
+  .empty-note .ee{font-size:48px;}
+  .empty-note .et{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.3rem;margin-top:8px;}
+  .empty-note .ed{font-weight:800;color:var(--ink-soft);margin-top:6px;line-height:1.5;}
+
+  /* practice */
+  .pcard{padding:26px 22px 24px;display:flex;flex-direction:column;gap:14px;min-height:300px;}
+  .pcard::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 100% 0%, var(--accent-soft), transparent 50%);pointer-events:none;}
+  .bigemoji{font-size:64px;text-align:center;line-height:1;filter:drop-shadow(0 6px 8px rgba(45,43,78,.18));}
+  .sentence{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.95rem;line-height:1.18;letter-spacing:-.5px;text-align:center;}
+  .sentence .w{border-radius:6px;padding:0 2px;transition:color .2s;}
+  .sentence .w.hit{color:var(--mint);} .sentence .w.miss{color:#ff5a47;}
+  .ko{font-weight:800;color:var(--ink-soft);font-size:1.02rem;text-align:center;}
+  .feedback{min-height:50px;display:flex;flex-direction:column;gap:6px;justify-content:center;text-align:center;}
+  .stars{font-size:1.7rem;letter-spacing:4px;height:28px;}
+  .fb-msg{font-weight:800;font-size:.98rem;}
+  .heard{font-weight:700;color:var(--ink-soft);font-size:.9rem;}
+  .heard b{color:var(--ink);}
+
+  .controls{display:flex;gap:10px;}
+  .btn{border:none;cursor:pointer;font-family:'Fredoka',sans-serif;font-weight:600;border-radius:18px;
+    padding:15px 8px;font-size:1.04rem;color:#fff;display:flex;align-items:center;justify-content:center;gap:7px;flex:1;
+    box-shadow:var(--shadow-sm);transition:transform .12s,filter .2s;}
+  .btn:hover{transform:translateY(-3px);filter:brightness(1.05);}
+  .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;filter:none;}
+  .btn .ico{font-size:1.2rem;}
+  .btn-listen{background:linear-gradient(160deg,#5ec9f5,#2287d8);}
+  .btn-speak{background:linear-gradient(160deg,#ff7a6b,#ff5a47);}
+  .btn-replay{background:linear-gradient(160deg,#a98bff,#7a52e8);}
+  .btn-speak.rec{animation:pulse 1s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,90,71,.5);}50%{box-shadow:0 0 0 13px rgba(255,90,71,0);}}
+
+  .footer{display:flex;align-items:center;gap:12px;}
+  .progress{flex:1;height:13px;background:#fff;border-radius:999px;overflow:hidden;box-shadow:inset 0 2px 5px rgba(45,43,78,.12);}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffce3d,#ffb017);transition:width .4s;}
+  .next{border:none;cursor:pointer;font-family:'Fredoka',sans-serif;font-weight:600;font-size:1rem;background:var(--ink);
+    color:#fff;padding:11px 18px;border-radius:15px;box-shadow:var(--shadow-sm);white-space:nowrap;transition:opacity .2s;}
+  .next.locked{opacity:.4;}
+  @keyframes nudge{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-6px);}40%,80%{transform:translateX(6px);}}
+  .btn-speak.nudge{animation:nudge .5s;}
+
+  /* dialog / roleplay */
+  .dlg-head{padding:18px 20px;display:flex;align-items:center;gap:12px;background:linear-gradient(160deg,var(--accent),rgba(0,0,0,.05));color:#fff;}
+  .dlg-head .dh-emoji{font-size:30px;}
+  .dlg-head .dh-t{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.15rem;}
+  .dlg-head .dh-s{font-weight:800;font-size:.82rem;opacity:.92;}
+  .chat{padding:18px;display:flex;flex-direction:column;gap:12px;max-height:46vh;overflow-y:auto;}
+  .bubble{max-width:82%;padding:12px 15px;border-radius:18px;font-weight:700;animation:pop .3s ease;}
+  @keyframes pop{from{transform:scale(.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .bubble .be{font-family:'Fredoka',sans-serif;font-weight:500;font-size:1.1rem;}
+  .bubble .bk{font-size:.84rem;color:var(--ink-soft);margin-top:3px;font-weight:700;}
+  .b-npc{align-self:flex-start;background:#f0eefb;border-bottom-left-radius:5px;}
+  .b-npc .who{font-size:.74rem;font-weight:900;color:var(--accent);margin-bottom:3px;}
+  .b-you{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:5px;}
+  .b-you .bk{color:rgba(255,255,255,.85);}
+  .dlg-prompt{padding:16px 18px;border-top:2px dashed #eee5cf;display:flex;flex-direction:column;gap:10px;}
+  .dlg-prompt .label{font-weight:800;color:var(--ink-soft);font-size:.86rem;}
+  .dlg-prompt .myline{font-family:'Fredoka',sans-serif;font-weight:500;font-size:1.25rem;}
+  .dlg-prompt .myline .blank{color:var(--coral);border-bottom:3px dotted var(--coral);padding:0 14px;}
+  .dlg-prompt .myko{font-weight:800;color:var(--ink-soft);font-size:.9rem;}
+  .dlg-actions{display:flex;gap:10px;}
+  .ghost{border:2px solid #e7e2d4;background:#fff;color:var(--ink-soft);cursor:pointer;font-family:'Nunito',sans-serif;
+    font-weight:800;padding:13px 14px;border-radius:16px;font-size:.92rem;}
+  .done-box{padding:30px 22px;text-align:center;display:flex;flex-direction:column;gap:12px;}
+  .done-box .de{font-size:54px;}
+  .done-box .dt{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.5rem;}
+  .done-box .dd{font-weight:800;color:var(--ink-soft);}
+
+  .note{font-size:.8rem;color:var(--ink-soft);font-weight:700;text-align:center;line-height:1.5;padding:0 8px;}
+  .note b{color:var(--coral);}
+  .hidden{display:none!important;}
+
+  /* clouds + confetti */
+  .cloud{position:fixed;background:rgba(255,255,255,.5);border-radius:50%;filter:blur(2px);pointer-events:none;z-index:0;animation:drift 24s linear infinite;}
+  .cloud::before,.cloud::after{content:"";position:absolute;background:inherit;border-radius:50%;}
+  .c1{width:90px;height:34px;top:12%;left:-120px;}.c1::before{width:46px;height:46px;top:-22px;left:14px;}.c1::after{width:34px;height:34px;top:-14px;left:50px;}
+  .c2{width:66px;height:25px;top:64%;left:-120px;animation-duration:32s;animation-delay:-9s;opacity:.7;}.c2::before{width:34px;height:34px;top:-17px;left:10px;}
+  @keyframes drift{from{transform:translateX(0);}to{transform:translateX(116vw);}}
+  #confetti{position:fixed;inset:0;pointer-events:none;z-index:60;}
+  @media(max-width:430px){.sentence{font-size:1.6rem;}.grades{gap:11px;}}
+</style>
+</head>
+<body>
+  <div class="cloud c1"></div><div class="cloud c2"></div>
+  <canvas id="confetti"></canvas>
+
+  <div class="app">
+    <header>
+      <div class="mascot" id="mascot" style="display:none">🦉</div>
+      <div class="title">
+        <span class="school">🏫 통일초등학교</span>
+        <h1>Speak <span id="brand">Up!</span></h1>
+        <p id="subtitle"></p>
+      </div>
+      <div class="score-pill">⭐ <span id="totalStars">0</span></div>
+    </header>
+
+    <!-- HOME -->
+    <section id="home">
+      <p class="home-intro">우리 학년·단원을 골라 따라 말하고, 마지막엔 부엉이와 대화에 도전해요! 🎤</p>
+      <div class="grades" id="gradeGrid"></div>
+      <p class="note" id="homeNote"></p>
+    </section>
+
+    <!-- LESSON LIST -->
+    <section id="lessonList" class="hidden">
+      <div class="topbar">
+        <button class="back" id="backHome">← 학년 선택</button>
+        <span class="crumb" id="listCrumb"></span>
+      </div>
+      <div class="lessons" id="lessonGrid"></div>
+      <div class="empty-note hidden" id="emptyNote">
+        <div class="ee">🛠️</div>
+        <div class="et">곧 만나요!</div>
+        <div class="ed">이 학년은 지금 준비하고 있어요.<br>3학년부터 먼저 연습해 볼까요?</div>
+      </div>
+    </section>
+
+    <!-- LESSON (practice + dialog) -->
+    <section id="lesson" class="hidden">
+      <div class="topbar">
+        <button class="back" id="backList">← 단원 선택</button>
+        <span class="crumb" id="lessonCrumb"></span>
+        <div class="tabs">
+          <button class="tab active" id="tabPractice">🗣️ 따라 말하기</button>
+          <button class="tab" id="tabDialog">💬 대화 도전</button>
+        </div>
+      </div>
+
+      <!-- PRACTICE -->
+      <div id="practice" class="card pcard">
+        <div class="bigemoji" id="bigEmoji">👋</div>
+        <div class="sentence" id="sentence"></div>
+        <div class="ko" id="ko"></div>
+        <div class="feedback">
+          <div class="stars" id="stars"></div>
+          <div class="fb-msg" id="fbMsg">🔊 듣기 → 🎤 말하기 순서로 연습해요!</div>
+          <div class="heard" id="heard"></div>
+        </div>
+        <div class="controls">
+          <button class="btn btn-listen" id="listenBtn"><span class="ico">🔊</span> 듣기</button>
+          <button class="btn btn-speak" id="speakBtn"><span class="ico">🎤</span> 말하기</button>
+          <button class="btn btn-replay" id="replayBtn" disabled><span class="ico">🔁</span> 내 목소리</button>
+        </div>
+      </div>
+      <div class="footer" id="pFooter">
+        <div class="progress"><i id="bar"></i></div>
+        <button class="next" id="nextBtn">다음 →</button>
+      </div>
+
+      <!-- DIALOG -->
+      <div id="dialog" class="card hidden">
+        <div class="dlg-head"><span class="dh-emoji" id="dhEmoji">💬</span>
+          <div><div class="dh-t" id="dhTitle"></div><div class="dh-s">연습한 문장으로 부엉이와 대화해 봐요!</div></div>
+        </div>
+        <div class="chat" id="chat"></div>
+        <div class="dlg-prompt hidden" id="dlgPrompt">
+          <div class="label">🙋 내 차례예요 — 따라 말해 보세요</div>
+          <div class="myline" id="myLine"></div>
+          <div class="myko" id="myKo"></div>
+          <div class="dlg-actions">
+            <button class="btn btn-listen" id="dListenBtn" style="flex:1"><span class="ico">🔊</span> 듣기</button>
+            <button class="btn btn-speak" id="dSpeakBtn" style="flex:2"><span class="ico">🎤</span> 말하기</button>
+            <button class="ghost" id="dSkipBtn">건너뛰기 →</button>
+          </div>
+        </div>
+        <div class="done-box hidden" id="doneBox">
+          <div class="de">🎉</div>
+          <div class="dt">대화 완성!</div>
+          <div class="dd">연습한 문장으로 멋지게 대화했어요!</div>
+          <div class="dlg-actions" style="justify-content:center">
+            <button class="next" id="restartDlg">다시 하기 🔄</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="note" id="lessonNote"></p>
+    </section>
+  </div>
+
+<script>
+/* =====================================================================
+   통일 Speak Up!  —  학년 → 단원 → (따라 말하기 / 대화 도전)
+   콘텐츠 출처: YBM 초등영어 3 (최희경) 교과서 대화문·어휘·연간 지도 계획
+   역할극 상대는 학교 마스코트 "부엉이"(Hoo)
+   ===================================================================== */
+
+const OWL = "🦉";  // 우리 마스코트
+
+const GRADES = {
+  3:{ accent:"#1fb27a", accentSoft:"rgba(84,214,163,.16)", emoji:"🐣", topic:"기초 회화",
+    lessons:[
+      /* ---------- Lesson 1 ---------- */
+      { num:1, title:"Hello, ABC!", emoji:"👋", hint:"인사하고 이름 말하기",
+        sentences:[
+          {e:"👋", en:"Hello!", ko:"안녕!"},
+          {e:"🙋", en:"Hi! I'm Leo.", ko:"안녕! 나는 레오야."},
+          {e:"😊", en:"My name is Hana.", ko:"내 이름은 하나야."},
+          {e:"🙌", en:"Hi, everyone!", ko:"안녕, 모두들!"},
+          {e:"🗣️", en:"Hello, everyone!", ko:"안녕하세요, 모두들!"},
+          {e:"🙏", en:"Thank you.", ko:"고마워."},
+          {e:"🌟", en:"Great!", ko:"훌륭해!"},
+          {e:"👋", en:"Goodbye!", ko:"잘 가!"}],
+        dialog:{ scene:"새 친구와 인사하기", emoji:"🙋",
+          turns:[
+            {who:"npc", en:"Hello, everyone!", ko:"안녕, 모두들!"},
+            {who:"you", en:"Hello!", ko:"안녕!", model:"Hello."},
+            {who:"npc", en:"My name is Hoo.", ko:"내 이름은 후야."},
+            {who:"you", en:"My name is ___.", ko:"내 이름은 ___야.", model:"My name is Mina."},
+            {who:"npc", en:"Great!", ko:"훌륭해!"},
+            {who:"you", en:"Thank you!", ko:"고마워!", model:"Thank you."},
+            {who:"npc", en:"Goodbye!", ko:"잘 가!"},
+            {who:"you", en:"Goodbye!", ko:"잘 가!", model:"Goodbye."}]}},
+
+      /* ---------- Lesson 2 ---------- */
+      { num:2, title:"What's This?", emoji:"🎒", hint:"무엇인지 묻고 답하기",
+        sentences:[
+          {e:"❓", en:"What's this?", ko:"이것은 무엇이니?"},
+          {e:"🎒", en:"It's a bag.", ko:"그것은 가방이야."},
+          {e:"⚽", en:"It's a ball.", ko:"그것은 공이야."},
+          {e:"🪑", en:"It's a chair.", ko:"그것은 의자야."},
+          {e:"🚗", en:"It's a car.", ko:"그것은 자동차야."},
+          {e:"🕐", en:"It's a clock.", ko:"그것은 시계야."},
+          {e:"🐘", en:"It's big.", ko:"그것은 커."},
+          {e:"🐜", en:"It's small.", ko:"그것은 작아."},
+          {e:"❓", en:"What's that?", ko:"저것은 무엇이니?"}],
+        dialog:{ scene:"물건 알아맞히기", emoji:"🔍",
+          turns:[
+            {who:"npc", en:"Look! What's this?", ko:"봐! 이것은 무엇이니?"},
+            {who:"you", en:"It's a ___.", ko:"그것은 ___야.", model:"It's a ball."},
+            {who:"npc", en:"What's that?", ko:"저것은 무엇이니?"},
+            {who:"you", en:"It's a ___.", ko:"그것은 ___야.", model:"It's a car."},
+            {who:"npc", en:"Wow! It's big!", ko:"우와! 그것은 크다!"},
+            {who:"you", en:"Yes! It's big.", ko:"응! 그것은 커.", model:"It's big."},
+            {who:"npc", en:"What's this?", ko:"이것은 무엇이니?"},
+            {who:"you", en:"It's a doll. It's small.", ko:"그것은 인형이야. 작아.", model:"It's a doll."}]}},
+
+      /* ---------- Lesson 3 ---------- */
+      { num:3, title:"Sit Down, Please", emoji:"🪑", hint:"행동 지시하고 답하기",
+        sentences:[
+          {e:"🪑", en:"Sit down, please.", ko:"앉으세요."},
+          {e:"🧍", en:"Stand up, please.", ko:"일어나세요."},
+          {e:"🚪", en:"Open the door, please.", ko:"문을 열어 주세요."},
+          {e:"📕", en:"Close the book, please.", ko:"책을 덮어 주세요."},
+          {e:"👀", en:"Look at me.", ko:"나를 보세요."},
+          {e:"🙆", en:"Come here, please.", ko:"이리 오세요."},
+          {e:"🏃", en:"Don't run, please.", ko:"뛰지 마세요."},
+          {e:"👍", en:"Okay.", ko:"네. / 알겠어."},
+          {e:"😊", en:"Good!", ko:"좋아요!"}],
+        dialog:{ scene:"교실에서 부탁하기", emoji:"🏫",
+          turns:[
+            {who:"npc", en:"Sit down, please.", ko:"앉으세요."},
+            {who:"you", en:"Okay.", ko:"네.", model:"Okay."},
+            {who:"npc", en:"Open the door, please.", ko:"문을 열어 주세요."},
+            {who:"you", en:"Okay.", ko:"네.", model:"Okay."},
+            {who:"npc", en:"Don't run, please.", ko:"뛰지 마세요."},
+            {who:"you", en:"Okay!", ko:"네!", model:"Okay."},
+            {who:"npc", en:"Now, your turn!", ko:"이제 네 차례야!"},
+            {who:"you", en:"Stand up, please!", ko:"일어나세요!", model:"Stand up, please."},
+            {who:"npc", en:"Okay! Good!", ko:"네! 좋아요!"}]}},
+
+      /* ---------- Lesson 4 ---------- */
+      { num:4, title:"How Many Cows?", emoji:"🐮", hint:"수 묻고 답하기",
+        sentences:[
+          {e:"👀", en:"Look!", ko:"봐!"},
+          {e:"🐮", en:"How many cows?", ko:"소가 몇 마리니?"},
+          {e:"3️⃣", en:"Three cows.", ko:"소 세 마리."},
+          {e:"🦆", en:"How many ducks?", ko:"오리가 몇 마리니?"},
+          {e:"🐷", en:"Two pigs.", ko:"돼지 두 마리."},
+          {e:"🐰", en:"One rabbit.", ko:"토끼 한 마리."},
+          {e:"🦓", en:"Four zebras.", ko:"얼룩말 네 마리."},
+          {e:"🐵", en:"Five monkeys.", ko:"원숭이 다섯 마리."},
+          {e:"🔢", en:"One, two, three, four, five.", ko:"하나, 둘, 셋, 넷, 다섯."}],
+        dialog:{ scene:"농장에서 동물 세기", emoji:"🚜",
+          turns:[
+            {who:"npc", en:"Look! How many cows?", ko:"봐! 소가 몇 마리니?"},
+            {who:"you", en:"___ cows.", ko:"소 ___ 마리.", model:"Three cows."},
+            {who:"npc", en:"How many ducks?", ko:"오리가 몇 마리니?"},
+            {who:"you", en:"___ ducks.", ko:"오리 ___ 마리.", model:"Four ducks."},
+            {who:"npc", en:"Look! How many pigs?", ko:"봐! 돼지가 몇 마리니?"},
+            {who:"you", en:"___ pigs.", ko:"돼지 ___ 마리.", model:"Two pigs."},
+            {who:"npc", en:"Wow! How many monkeys?", ko:"우와! 원숭이가 몇 마리니?"},
+            {who:"you", en:"___ monkeys.", ko:"원숭이 ___ 마리.", model:"Five monkeys."},
+            {who:"npc", en:"Great!", ko:"훌륭해!"}]}},
+
+      /* ---------- Lesson 5 ---------- */
+      { num:5, title:"Do You Like Apples?", emoji:"🍎", hint:"좋아하는 것 묻고 답하기",
+        sentences:[
+          {e:"🍎", en:"Do you like apples?", ko:"사과를 좋아하니?"},
+          {e:"👍", en:"Yes, I do.", ko:"응, 좋아해."},
+          {e:"👎", en:"No, I don't.", ko:"아니, 안 좋아해."},
+          {e:"🍊", en:"I like oranges.", ko:"나는 오렌지를 좋아해."},
+          {e:"🍌", en:"I like bananas.", ko:"나는 바나나를 좋아해."},
+          {e:"🍕", en:"I like pizza.", ko:"나는 피자를 좋아해."},
+          {e:"🍇", en:"Do you like grapes?", ko:"포도를 좋아하니?"},
+          {e:"🍞", en:"I like bread.", ko:"나는 빵을 좋아해."},
+          {e:"🍦", en:"I like ice cream.", ko:"나는 아이스크림을 좋아해."}],
+        dialog:{ scene:"좋아하는 과일 묻기", emoji:"🍓",
+          turns:[
+            {who:"npc", en:"Do you like apples?", ko:"사과를 좋아하니?"},
+            {who:"you", en:"Yes, I do.", ko:"응, 좋아해.", model:"Yes, I do."},
+            {who:"npc", en:"Do you like pizza?", ko:"피자를 좋아하니?"},
+            {who:"you", en:"Yes, I do.", ko:"응, 좋아해.", model:"Yes, I do."},
+            {who:"npc", en:"I like bananas. Do you like bananas?", ko:"나는 바나나를 좋아해. 너는 바나나를 좋아하니?"},
+            {who:"you", en:"No, I don't.", ko:"아니, 안 좋아해.", model:"No, I don't."},
+            {who:"npc", en:"Do you like grapes?", ko:"포도를 좋아하니?"},
+            {who:"you", en:"I like grapes!", ko:"나는 포도를 좋아해!", model:"I like grapes."},
+            {who:"npc", en:"Great!", ko:"훌륭해!"}]}},
+
+      /* ---------- Lesson 6 ---------- */
+      { num:6, title:"I Can Jump", emoji:"🤸", hint:"할 수 있는지 묻고 답하기",
+        sentences:[
+          {e:"🏊", en:"Can you swim?", ko:"수영할 수 있니?"},
+          {e:"👍", en:"Yes, I can.", ko:"응, 할 수 있어."},
+          {e:"👎", en:"No, I can't.", ko:"아니, 못 해."},
+          {e:"🦘", en:"I can jump.", ko:"나는 점프할 수 있어."},
+          {e:"💃", en:"I can dance.", ko:"나는 춤출 수 있어."},
+          {e:"⚽", en:"I can kick the ball.", ko:"나는 공을 찰 수 있어."},
+          {e:"🧗", en:"Can you climb?", ko:"올라갈 수 있니?"},
+          {e:"🪁", en:"I can fly.", ko:"나는 날 수 있어."},
+          {e:"🙌", en:"You can do it!", ko:"넌 할 수 있어!"}],
+        dialog:{ scene:"할 수 있는 것 자랑하기", emoji:"💪",
+          turns:[
+            {who:"npc", en:"Can you swim?", ko:"수영할 수 있니?"},
+            {who:"you", en:"Yes, I can.", ko:"응, 할 수 있어.", model:"Yes, I can."},
+            {who:"npc", en:"Can you jump?", ko:"점프할 수 있니?"},
+            {who:"you", en:"Yes, I can.", ko:"응, 할 수 있어.", model:"Yes, I can."},
+            {who:"npc", en:"Can you climb?", ko:"올라갈 수 있니?"},
+            {who:"you", en:"No, I can't.", ko:"아니, 못 해.", model:"No, I can't."},
+            {who:"npc", en:"Try! You can do it!", ko:"해 봐! 넌 할 수 있어!"},
+            {who:"you", en:"I can climb!", ko:"나 올라갈 수 있어!", model:"I can climb."},
+            {who:"npc", en:"Great!", ko:"훌륭해!"}]}},
+
+      /* ---------- Lesson 7 ---------- */
+      { num:7, title:"I Have a Pencil", emoji:"✏️", hint:"물건을 가지고 있는지 묻고 답하기",
+        sentences:[
+          {e:"✏️", en:"Do you have a pencil?", ko:"연필 있니?"},
+          {e:"👍", en:"Yes, I do.", ko:"응, 있어."},
+          {e:"👎", en:"No, I don't.", ko:"아니, 없어."},
+          {e:"📒", en:"I have a notebook.", ko:"나는 공책이 있어."},
+          {e:"📏", en:"I have a ruler.", ko:"나는 자가 있어."},
+          {e:"✂️", en:"Do you have scissors?", ko:"가위 있니?"},
+          {e:"🧽", en:"I have an eraser.", ko:"나는 지우개가 있어."},
+          {e:"🖍️", en:"I have crayons.", ko:"나는 크레용이 있어."},
+          {e:"🙌", en:"Here you are.", ko:"여기 있어."}],
+        dialog:{ scene:"학용품 빌리기", emoji:"🎒",
+          turns:[
+            {who:"npc", en:"Do you have a pencil?", ko:"연필 있니?"},
+            {who:"you", en:"Yes, I do. Here you are.", ko:"응, 있어. 여기.", model:"Yes, I do."},
+            {who:"npc", en:"Thank you! Do you have an eraser?", ko:"고마워! 지우개 있니?"},
+            {who:"you", en:"No, I don't.", ko:"아니, 없어.", model:"No, I don't."},
+            {who:"npc", en:"Do you have a ruler?", ko:"자 있니?"},
+            {who:"you", en:"Yes, I do.", ko:"응, 있어.", model:"Yes, I do."},
+            {who:"npc", en:"Do you have scissors?", ko:"가위 있니?"},
+            {who:"you", en:"No, I don't.", ko:"아니, 없어.", model:"No, I don't."},
+            {who:"npc", en:"Okay. Thank you!", ko:"알겠어. 고마워!"}]}},
+
+      /* ---------- Lesson 8 ---------- */
+      { num:8, title:"I'm Happy", emoji:"🎂", hint:"감정·나이 묻고 답하기",
+        sentences:[
+          {e:"😊", en:"I'm happy.", ko:"나는 행복해."},
+          {e:"😢", en:"I'm sad.", ko:"나는 슬퍼."},
+          {e:"😠", en:"I'm angry.", ko:"나는 화났어."},
+          {e:"🍽️", en:"I'm hungry.", ko:"나는 배고파."},
+          {e:"😴", en:"I'm tired.", ko:"나는 피곤해."},
+          {e:"🎂", en:"Happy birthday!", ko:"생일 축하해!"},
+          {e:"❓", en:"How old are you?", ko:"너는 몇 살이니?"},
+          {e:"🔟", en:"I'm ten years old.", ko:"나는 열 살이야."},
+          {e:"🎉", en:"Let's make a cake.", ko:"케이크를 만들자."}],
+        dialog:{ scene:"생일 축하하기", emoji:"🎉",
+          turns:[
+            {who:"npc", en:"Happy birthday!", ko:"생일 축하해!"},
+            {who:"you", en:"Thank you! I'm happy.", ko:"고마워! 나는 행복해.", model:"Thank you. I'm happy."},
+            {who:"npc", en:"How old are you?", ko:"몇 살이니?"},
+            {who:"you", en:"I'm ___ years old.", ko:"나는 ___살이야.", model:"I'm nine years old."},
+            {who:"npc", en:"Let's make a cake!", ko:"케이크를 만들자!"},
+            {who:"you", en:"Okay!", ko:"좋아!", model:"Okay."},
+            {who:"npc", en:"I'm happy, too!", ko:"나도 행복해!"},
+            {who:"you", en:"I'm happy!", ko:"나는 행복해!", model:"I'm happy."},
+            {who:"npc", en:"Great!", ko:"좋아!"}]}},
+
+      /* ---------- Lesson 9 ---------- */
+      { num:9, title:"What Color Is It?", emoji:"🎨", hint:"색깔 묻고 답하기",
+        sentences:[
+          {e:"❓", en:"What color is it?", ko:"무슨 색이니?"},
+          {e:"🔴", en:"It's red.", ko:"빨간색이야."},
+          {e:"🔵", en:"It's blue.", ko:"파란색이야."},
+          {e:"🟡", en:"It's yellow.", ko:"노란색이야."},
+          {e:"🟢", en:"It's green.", ko:"초록색이야."},
+          {e:"🟣", en:"It's purple.", ko:"보라색이야."},
+          {e:"🟤", en:"It's brown.", ko:"갈색이야."},
+          {e:"🩷", en:"It's pink.", ko:"분홍색이야."},
+          {e:"👍", en:"That's right.", ko:"맞아."}],
+        dialog:{ scene:"색깔 맞히기", emoji:"🌈",
+          turns:[
+            {who:"npc", en:"Look! What color is it?", ko:"봐! 무슨 색이니?"},
+            {who:"you", en:"It's ___.", ko:"___색이야.", model:"It's red."},
+            {who:"npc", en:"That's right! What color is it?", ko:"맞아! 무슨 색이니?"},
+            {who:"you", en:"It's ___.", ko:"___색이야.", model:"It's blue."},
+            {who:"npc", en:"Look at this! What color is it?", ko:"이것 봐! 무슨 색이니?"},
+            {who:"you", en:"It's ___.", ko:"___색이야.", model:"It's yellow."},
+            {who:"npc", en:"What color is it?", ko:"무슨 색이니?"},
+            {who:"you", en:"It's green.", ko:"초록색이야.", model:"It's green."},
+            {who:"npc", en:"That's right! Great!", ko:"맞아! 훌륭해!"}]}},
+
+      /* ---------- Lesson 10 ---------- */
+      { num:10, title:"How's the Weather?", emoji:"🌤️", hint:"날씨 묻고 답하기",
+        sentences:[
+          {e:"❓", en:"How's the weather?", ko:"날씨가 어때?"},
+          {e:"☀️", en:"It's sunny.", ko:"화창해."},
+          {e:"☁️", en:"It's cloudy.", ko:"흐려."},
+          {e:"🌧️", en:"It's raining.", ko:"비가 와."},
+          {e:"❄️", en:"It's snowing.", ko:"눈이 와."},
+          {e:"💨", en:"It's windy.", ko:"바람이 불어."},
+          {e:"🥶", en:"It's cold.", ko:"추워."},
+          {e:"☂️", en:"Let's go outside.", ko:"밖에 나가자."},
+          {e:"⛄", en:"Let's make a snowman.", ko:"눈사람을 만들자."}],
+        dialog:{ scene:"날씨 보고 놀기", emoji:"🌦️",
+          turns:[
+            {who:"npc", en:"How's the weather?", ko:"날씨가 어때?"},
+            {who:"you", en:"It's ___.", ko:"___해.", model:"It's sunny."},
+            {who:"npc", en:"Let's go outside!", ko:"밖에 나가자!"},
+            {who:"you", en:"Okay!", ko:"좋아!", model:"Okay."},
+            {who:"npc", en:"Oh, it's raining. Do you have an umbrella?", ko:"오, 비가 와. 우산 있니?"},
+            {who:"you", en:"Yes, I do.", ko:"응, 있어.", model:"Yes, I do."},
+            {who:"npc", en:"It's snowing! Let's make a snowman.", ko:"눈이 와! 눈사람 만들자."},
+            {who:"you", en:"Okay!", ko:"좋아!", model:"Okay."},
+            {who:"npc", en:"Great!", ko:"좋아!"}]}}
+    ]},
+
+  /* ===== 준비 중인 학년 ===== */
+  /* ===================== 4학년 (YBM 최희경) ===================== */
+  4:{ accent:"#2287d8", accentSoft:"rgba(94,201,245,.16)", emoji:"🐬", topic:"기초 회화",
+    lessons:[
+      /* ---------- Lesson 1 ---------- */
+      { num:1, title:"How Are You?", emoji:"👋", hint:"안부 묻고 인사하기",
+        sentences:[
+          {e:"🌅", en:"Good morning!", ko:"좋은 아침이에요!"},
+          {e:"☀️", en:"Good afternoon!", ko:"안녕하세요! (오후 인사)"},
+          {e:"🌆", en:"Good evening!", ko:"안녕하세요! (저녁 인사)"},
+          {e:"🌙", en:"Good night!", ko:"잘 자요!"},
+          {e:"❓", en:"How are you?", ko:"기분이 어때?"},
+          {e:"😄", en:"I'm good.", ko:"나는 좋아."},
+          {e:"🙂", en:"I'm fine.", ko:"나는 괜찮아."},
+          {e:"🌟", en:"I'm great.", ko:"나는 아주 좋아."},
+          {e:"😌", en:"Not bad.", ko:"나쁘지 않아."},
+          {e:"😴", en:"I'm sleepy.", ko:"나는 졸려."},
+          {e:"🙏", en:"Thank you.", ko:"고마워."},
+          {e:"🙋", en:"What's your name?", ko:"네 이름은 뭐니?"},
+          {e:"😊", en:"My name is Eric.", ko:"내 이름은 에릭이야."}],
+        dialog:{ scene:"친구와 안부 인사하기", emoji:"☀️",
+          turns:[
+            {who:"npc", en:"Good morning!", ko:"좋은 아침이에요!"},
+            {who:"you", en:"Good morning!", ko:"좋은 아침이에요!", model:"Good morning."},
+            {who:"npc", en:"How are you?", ko:"기분이 어때?"},
+            {who:"you", en:"I'm good. How are you?", ko:"나는 좋아. 너는 어때?", model:"I'm good. How are you?"},
+            {who:"npc", en:"I'm great! What's your name?", ko:"나는 아주 좋아! 네 이름은 뭐니?"},
+            {who:"you", en:"My name is ___.", ko:"내 이름은 ___이야.", model:"My name is Eric."},
+            {who:"npc", en:"Good job!", ko:"잘했어!"},
+            {who:"you", en:"Thank you!", ko:"고마워!", model:"Thank you."}]}},
+
+      /* ---------- Lesson 2 ---------- */
+      { num:2, title:"Who Is She?", emoji:"👨‍👩‍👧‍👦", hint:"누구인지 묻고 묘사하기",
+        sentences:[
+          {e:"❓", en:"Who is he?", ko:"그는 누구니?"},
+          {e:"👨", en:"He's my dad.", ko:"그는 우리 아빠야."},
+          {e:"❓", en:"Who is she?", ko:"그녀는 누구니?"},
+          {e:"👩", en:"She's my mom.", ko:"그녀는 우리 엄마야."},
+          {e:"👵", en:"She's my grandmother.", ko:"그녀는 우리 할머니야."},
+          {e:"👴", en:"He's my grandfather.", ko:"그는 우리 할아버지야."},
+          {e:"👧", en:"She's my sister.", ko:"그녀는 우리 언니(누나·여동생)야."},
+          {e:"👦", en:"He's my brother.", ko:"그는 우리 형(오빠·남동생)이야."},
+          {e:"🧑", en:"He's my uncle.", ko:"그는 우리 삼촌이야."},
+          {e:"👩‍🦰", en:"She's my aunt.", ko:"그녀는 우리 이모(고모)야."},
+          {e:"😊", en:"She's cute.", ko:"그녀는 귀여워."},
+          {e:"📏", en:"He's tall.", ko:"그는 키가 커."},
+          {e:"👨‍👩‍👧‍👦", en:"This is my family.", ko:"이쪽은 우리 가족이야."}],
+        dialog:{ scene:"가족 사진 소개하기", emoji:"👨‍👩‍👧‍👦",
+          turns:[
+            {who:"npc", en:"Who is she?", ko:"그녀는 누구니?"},
+            {who:"you", en:"She's my ___.", ko:"그녀는 우리 ___야.", model:"She's my mom."},
+            {who:"npc", en:"Who is he?", ko:"그는 누구니?"},
+            {who:"you", en:"He's my ___.", ko:"그는 우리 ___야.", model:"He's my dad."},
+            {who:"npc", en:"She's cute!", ko:"귀엽다!"},
+            {who:"you", en:"Yes! She's my sister.", ko:"응! 우리 여동생이야.", model:"She's my sister."},
+            {who:"npc", en:"Wow, a big family!", ko:"우와, 대가족이네!"},
+            {who:"you", en:"This is my family!", ko:"이쪽은 우리 가족이야!", model:"This is my family."}]}},
+
+      /* ---------- Lesson 3 ---------- */
+      { num:3, title:"What Time Is It?", emoji:"🕐", hint:"시각 묻고 답하기",
+        sentences:[
+          {e:"❓", en:"What time is it?", ko:"몇 시야?"},
+          {e:"🕗", en:"It's eight o'clock.", ko:"8시야."},
+          {e:"🕚", en:"It's eleven o'clock.", ko:"11시야."},
+          {e:"🕛", en:"It's twelve o'clock.", ko:"12시야."},
+          {e:"🕥", en:"It's eight thirty.", ko:"8시 30분이야."},
+          {e:"🍳", en:"It's time for breakfast.", ko:"아침 먹을 시간이야."},
+          {e:"🏫", en:"It's time for school.", ko:"학교 갈 시간이야."},
+          {e:"📚", en:"It's time for class.", ko:"수업 시간이야."},
+          {e:"🍱", en:"It's time for lunch.", ko:"점심 먹을 시간이야."},
+          {e:"🍽️", en:"It's time for dinner.", ko:"저녁 먹을 시간이야."},
+          {e:"🛏️", en:"It's time for bed.", ko:"잘 시간이야."},
+          {e:"⏰", en:"What time is it now?", ko:"지금 몇 시야?"},
+          {e:"🕐", en:"It's one o'clock.", ko:"1시야."}],
+        dialog:{ scene:"하루 시간표 보기", emoji:"⏰",
+          turns:[
+            {who:"npc", en:"What time is it?", ko:"몇 시야?"},
+            {who:"you", en:"It's ___ o'clock.", ko:"___시야.", model:"It's eight o'clock."},
+            {who:"npc", en:"It's time for school!", ko:"학교 갈 시간이야!"},
+            {who:"you", en:"Okay!", ko:"알겠어!", model:"Okay."},
+            {who:"npc", en:"What time is it now?", ko:"지금 몇 시야?"},
+            {who:"you", en:"It's ___ o'clock.", ko:"___시야.", model:"It's twelve o'clock."},
+            {who:"npc", en:"It's time for lunch!", ko:"점심 시간이야!"},
+            {who:"you", en:"Yes! It's time for lunch.", ko:"응! 점심 먹을 시간이야.", model:"It's time for lunch."}]}},
+
+      /* ---------- Lesson 4 ---------- */
+      { num:4, title:"Let's Play Soccer", emoji:"⚽", hint:"제안하고 답하기",
+        sentences:[
+          {e:"⚽", en:"Let's play soccer.", ko:"축구하자."},
+          {e:"🏀", en:"Let's play basketball.", ko:"농구하자."},
+          {e:"⚾", en:"Let's play baseball.", ko:"야구하자."},
+          {e:"🏸", en:"Let's play badminton.", ko:"배드민턴 치자."},
+          {e:"🎾", en:"Let's play tennis.", ko:"테니스 치자."},
+          {e:"🚲", en:"Let's ride bikes.", ko:"자전거 타자."},
+          {e:"🛸", en:"Let's fly a drone.", ko:"드론을 날리자."},
+          {e:"👍", en:"Sounds good.", ko:"좋아."},
+          {e:"🎉", en:"Sounds great.", ko:"완전 좋아."},
+          {e:"🙇", en:"Sorry. I can't.", ko:"미안해. 나는 할 수 없어."},
+          {e:"❓", en:"Are you okay?", ko:"너 괜찮니?"},
+          {e:"🙂", en:"Yes, I am.", ko:"응, 나 괜찮아."},
+          {e:"🧤", en:"Catch the ball!", ko:"공을 잡아!"}],
+        dialog:{ scene:"방과 후 같이 놀기", emoji:"🏃",
+          turns:[
+            {who:"npc", en:"Let's play soccer.", ko:"축구하자."},
+            {who:"you", en:"Sounds good!", ko:"좋아!", model:"Sounds good."},
+            {who:"npc", en:"Let's play tennis.", ko:"테니스 치자."},
+            {who:"you", en:"Sorry. I can't.", ko:"미안해. 나는 할 수 없어.", model:"Sorry. I can't."},
+            {who:"npc", en:"Let's ride bikes!", ko:"자전거 타자!"},
+            {who:"you", en:"Sounds good!", ko:"좋아!", model:"Sounds good."},
+            {who:"npc", en:"Oh! Are you okay?", ko:"오! 너 괜찮니?"},
+            {who:"you", en:"Yes, I am.", ko:"응, 나 괜찮아.", model:"Yes, I am."}]}},
+
+      /* ---------- Lesson 5 ---------- */
+      { num:5, title:"Where Is My Bag?", emoji:"🎒", hint:"물건의 위치 묻고 답하기",
+        sentences:[
+          {e:"❓", en:"Where is my bag?", ko:"내 가방 어디 있어?"},
+          {e:"🪑", en:"It's on the table.", ko:"탁자 위에 있어."},
+          {e:"🗄️", en:"It's under the desk.", ko:"책상 아래에 있어."},
+          {e:"👜", en:"It's in the bag.", ko:"가방 안에 있어."},
+          {e:"❓", en:"Where is my cap?", ko:"내 모자 어디 있어?"},
+          {e:"🧢", en:"It's on the chair.", ko:"의자 위에 있어."},
+          {e:"❓", en:"Where is my phone?", ko:"내 전화기 어디 있어?"},
+          {e:"📱", en:"It's in my pocket.", ko:"주머니 안에 있어."},
+          {e:"⌚", en:"Where is my watch?", ko:"내 시계 어디 있어?"},
+          {e:"📦", en:"It's in the box.", ko:"상자 안에 있어."},
+          {e:"🤔", en:"Sorry?", ko:"뭐라고?"},
+          {e:"📋", en:"It's under the table.", ko:"탁자 아래에 있어."},
+          {e:"🙏", en:"Thank you.", ko:"고마워."}],
+        dialog:{ scene:"잃어버린 물건 찾기", emoji:"🔍",
+          turns:[
+            {who:"npc", en:"Where is my bag?", ko:"내 가방 어디 있어?"},
+            {who:"you", en:"It's ___ the table.", ko:"탁자 ___에 있어.", model:"It's on the table."},
+            {who:"npc", en:"Sorry?", ko:"뭐라고?"},
+            {who:"you", en:"It's on the table.", ko:"탁자 위에 있어.", model:"It's on the table."},
+            {who:"npc", en:"Where is my phone?", ko:"내 전화기 어디 있어?"},
+            {who:"you", en:"It's in your pocket.", ko:"주머니 안에 있어.", model:"It's in your pocket."},
+            {who:"npc", en:"And my watch?", ko:"그럼 내 시계는?"},
+            {who:"you", en:"It's under the desk.", ko:"책상 아래에 있어.", model:"It's under the desk."}]}},
+
+      /* ---------- Lesson 6 ---------- */
+      { num:6, title:"What Are You Doing?", emoji:"🎨", hint:"지금 하는 일 묻고 도움 요청하기",
+        sentences:[
+          {e:"❓", en:"What are you doing?", ko:"너는 무엇을 하고 있니?"},
+          {e:"🎨", en:"I'm drawing a picture.", ko:"나는 그림을 그리고 있어."},
+          {e:"📖", en:"I'm reading a book.", ko:"나는 책을 읽고 있어."},
+          {e:"📺", en:"I'm watching TV.", ko:"나는 TV를 보고 있어."},
+          {e:"📝", en:"I'm doing my homework.", ko:"나는 숙제를 하고 있어."},
+          {e:"🪁", en:"I'm flying a drone.", ko:"나는 드론을 날리고 있어."},
+          {e:"🌳", en:"I'm cleaning the park.", ko:"나는 공원을 청소하고 있어."},
+          {e:"🗑️", en:"I'm picking up trash.", ko:"나는 쓰레기를 줍고 있어."},
+          {e:"🙏", en:"Can you help me?", ko:"나 좀 도와줄 수 있니?"},
+          {e:"👍", en:"Sure.", ko:"물론이지."},
+          {e:"🍪", en:"Let's make cookies.", ko:"쿠키를 만들자."},
+          {e:"🧒", en:"What is he doing?", ko:"그는 무엇을 하고 있니?"},
+          {e:"✈️", en:"He's flying a drone.", ko:"그는 드론을 날리고 있어."}],
+        dialog:{ scene:"함께 봉사활동 하기", emoji:"🌳",
+          turns:[
+            {who:"npc", en:"What are you doing?", ko:"너는 무엇을 하고 있니?"},
+            {who:"you", en:"I'm ___.", ko:"나는 ___ 하고 있어.", model:"I'm reading a book."},
+            {who:"npc", en:"I'm picking up trash. Can you help me?", ko:"나는 쓰레기를 줍고 있어. 나 좀 도와줄 수 있니?"},
+            {who:"you", en:"Sure!", ko:"물론이지!", model:"Sure."},
+            {who:"npc", en:"Thank you! What is he doing?", ko:"고마워! 그는 무엇을 하고 있니?"},
+            {who:"you", en:"He's flying a drone.", ko:"그는 드론을 날리고 있어.", model:"He's flying a drone."},
+            {who:"npc", en:"Cool! Let's make cookies.", ko:"멋지다! 쿠키를 만들자."},
+            {who:"you", en:"Okay!", ko:"좋아!", model:"Okay."}]}},
+
+      /* ---------- Lesson 7 ---------- */
+      { num:7, title:"Is This Your Jacket?", emoji:"🧥", hint:"옷의 주인인지 묻고 답하기",
+        sentences:[
+          {e:"❓", en:"Is this your jacket?", ko:"이것은 네 재킷이니?"},
+          {e:"✅", en:"Yes, it is.", ko:"응, 맞아."},
+          {e:"❌", en:"No, it isn't.", ko:"아니, 그것은 내 것이 아니야."},
+          {e:"🧥", en:"Is this your coat?", ko:"이것은 네 코트니?"},
+          {e:"👗", en:"Is this your dress?", ko:"이것은 네 원피스니?"},
+          {e:"👕", en:"Is this your T-shirt?", ko:"이것은 네 티셔츠니?"},
+          {e:"🩳", en:"Is this your skirt?", ko:"이것은 네 치마니?"},
+          {e:"🪢", en:"Is this your belt?", ko:"이것은 네 벨트니?"},
+          {e:"🔴", en:"Mine is red.", ko:"내 것은 빨간색이야."},
+          {e:"🔵", en:"Mine is blue.", ko:"내 것은 파란색이야."},
+          {e:"🟡", en:"Mine is yellow.", ko:"내 것은 노란색이야."},
+          {e:"🙋", en:"It's mine.", ko:"그건 내 거야."},
+          {e:"😊", en:"I like your coat.", ko:"네 코트가 마음에 들어."}],
+        dialog:{ scene:"옷 주인 찾기", emoji:"🧥",
+          turns:[
+            {who:"npc", en:"Is this your cap?", ko:"이것은 네 모자니?"},
+            {who:"you", en:"No, it isn't.", ko:"아니, 내 것이 아니야.", model:"No, it isn't."},
+            {who:"npc", en:"Is this your jacket?", ko:"이것은 네 재킷이니?"},
+            {who:"you", en:"No, it isn't. Mine is red.", ko:"아니야. 내 것은 빨간색이야.", model:"No, it isn't. Mine is red."},
+            {who:"npc", en:"Is this your jacket?", ko:"이것은 네 재킷이니?"},
+            {who:"you", en:"Yes, it is!", ko:"응, 맞아!", model:"Yes, it is."},
+            {who:"npc", en:"I like your jacket!", ko:"네 재킷 마음에 들어!"},
+            {who:"you", en:"Thank you!", ko:"고마워!", model:"Thank you."}]}},
+
+      /* ---------- Lesson 8 ---------- */
+      { num:8, title:"Do You Want Some Chicken?", emoji:"🍗", hint:"음식 권하고 답하기",
+        sentences:[
+          {e:"🍗", en:"Do you want some chicken?", ko:"치킨을 좀 원하니?"},
+          {e:"🙆", en:"Yes, please.", ko:"응, 부탁해."},
+          {e:"🙅", en:"No, thanks.", ko:"아니, 괜찮아."},
+          {e:"🍛", en:"I want some curry.", ko:"나는 카레를 좀 원해."},
+          {e:"🍔", en:"Do you want some hamburgers?", ko:"햄버거를 좀 원하니?"},
+          {e:"🍝", en:"I want some spaghetti.", ko:"나는 스파게티를 좀 원해."},
+          {e:"🥩", en:"Do you want some beef?", ko:"소고기를 좀 원하니?"},
+          {e:"🍪", en:"Do you want some snacks?", ko:"과자를 좀 원하니?"},
+          {e:"🧃", en:"I want some juice.", ko:"나는 주스를 좀 원해."},
+          {e:"🥛", en:"I want some milk.", ko:"나는 우유를 좀 원해."},
+          {e:"💧", en:"I want some water.", ko:"나는 물을 좀 원해."},
+          {e:"😋", en:"It's good!", ko:"맛있어!"},
+          {e:"🍦", en:"Do you want some ice cream?", ko:"아이스크림을 좀 원하니?"}],
+        dialog:{ scene:"식탁에서 음식 권하기", emoji:"🍽️",
+          turns:[
+            {who:"npc", en:"Do you want some chicken?", ko:"치킨을 좀 원하니?"},
+            {who:"you", en:"Yes, please.", ko:"응, 부탁해.", model:"Yes, please."},
+            {who:"npc", en:"Do you want some milk?", ko:"우유를 좀 원하니?"},
+            {who:"you", en:"No, thanks. I want some ___.", ko:"아니, 괜찮아. 나는 ___를 좀 원해.", model:"I want some juice."},
+            {who:"npc", en:"Okay. Here you are.", ko:"알겠어. 여기 있어."},
+            {who:"you", en:"Thank you!", ko:"고마워!", model:"Thank you."},
+            {who:"npc", en:"Do you want some ice cream?", ko:"아이스크림을 좀 원하니?"},
+            {who:"you", en:"Yes, please!", ko:"응, 부탁해!", model:"Yes, please."}]}},
+
+      /* ---------- Lesson 9 ---------- */
+      { num:9, title:"What Day Is It Today?", emoji:"📅", hint:"요일 묻고 활동 말하기",
+        sentences:[
+          {e:"❓", en:"What day is it today?", ko:"오늘은 무슨 요일이니?"},
+          {e:"📅", en:"It's Monday.", ko:"월요일이야."},
+          {e:"📅", en:"It's Tuesday.", ko:"화요일이야."},
+          {e:"📅", en:"It's Wednesday.", ko:"수요일이야."},
+          {e:"📅", en:"It's Thursday.", ko:"목요일이야."},
+          {e:"📅", en:"It's Friday.", ko:"금요일이야."},
+          {e:"📅", en:"It's Saturday.", ko:"토요일이야."},
+          {e:"📅", en:"It's Sunday.", ko:"일요일이야."},
+          {e:"⚽", en:"I have soccer class today.", ko:"나는 오늘 축구 수업이 있어."},
+          {e:"🎹", en:"I have piano class today.", ko:"나는 오늘 피아노 수업이 있어."},
+          {e:"🎻", en:"I have violin class today.", ko:"나는 오늘 바이올린 수업이 있어."},
+          {e:"💻", en:"I have computer class today.", ko:"나는 오늘 컴퓨터 수업이 있어."},
+          {e:"💃", en:"I have dance class today.", ko:"나는 오늘 춤 수업이 있어."}],
+        dialog:{ scene:"이번 주 일정 이야기", emoji:"📅",
+          turns:[
+            {who:"npc", en:"What day is it today?", ko:"오늘은 무슨 요일이니?"},
+            {who:"you", en:"It's ___.", ko:"___요일이야.", model:"It's Tuesday."},
+            {who:"npc", en:"I have violin class today.", ko:"나는 오늘 바이올린 수업이 있어."},
+            {who:"you", en:"I have ___ class today.", ko:"나는 오늘 ___ 수업이 있어.", model:"I have piano class today."},
+            {who:"npc", en:"Can you play badminton?", ko:"너는 배드민턴을 칠 수 있니?"},
+            {who:"you", en:"Yes, I can.", ko:"응, 할 수 있어.", model:"Yes, I can."},
+            {who:"npc", en:"Let's play badminton this Saturday!", ko:"이번 주 토요일에 배드민턴 치자!"},
+            {who:"you", en:"Sounds good!", ko:"좋아!", model:"Sounds good."}]}},
+
+      /* ---------- Lesson 10 ---------- */
+      { num:10, title:"How Much Is It?", emoji:"💰", hint:"가격 묻고 도움 제안하기",
+        sentences:[
+          {e:"❓", en:"How much is it?", ko:"이것은 얼마인가요?"},
+          {e:"💰", en:"It's two hundred won.", ko:"200원이에요."},
+          {e:"💵", en:"It's five hundred won.", ko:"500원이에요."},
+          {e:"💴", en:"It's one thousand won.", ko:"1,000원이에요."},
+          {e:"🛼", en:"I like this jump rope.", ko:"저는 이 줄넘기가 마음에 들어요."},
+          {e:"⚽", en:"I like this soccer ball.", ko:"저는 이 축구공이 마음에 들어요."},
+          {e:"🚗", en:"I like this toy car.", ko:"저는 이 장난감 자동차가 마음에 들어요."},
+          {e:"🎀", en:"I like this hairpin.", ko:"저는 이 머리핀이 마음에 들어요."},
+          {e:"⚾", en:"I like this bat.", ko:"저는 이 야구 방망이가 마음에 들어요."},
+          {e:"🙋", en:"Can I help you?", ko:"도와드릴까요?"},
+          {e:"🙆", en:"Yes, please.", ko:"네, 부탁해요."},
+          {e:"🛍️", en:"I'll take it.", ko:"이걸로 살게요."},
+          {e:"🙌", en:"Here you are.", ko:"여기 있어요."}],
+        dialog:{ scene:"장난감 가게에서", emoji:"🛍️",
+          turns:[
+            {who:"npc", en:"Can I help you?", ko:"도와드릴까요?"},
+            {who:"you", en:"Yes, please.", ko:"네, 부탁해요.", model:"Yes, please."},
+            {who:"npc", en:"Here is a nice jump rope.", ko:"여기 멋진 줄넘기가 있어요."},
+            {who:"you", en:"How much is it?", ko:"이것은 얼마인가요?", model:"How much is it?"},
+            {who:"npc", en:"It's one thousand won.", ko:"1,000원이에요."},
+            {who:"you", en:"I'll take it.", ko:"이걸로 살게요.", model:"I'll take it."},
+            {who:"npc", en:"Here you are.", ko:"여기 있어요."},
+            {who:"you", en:"Thank you!", ko:"고마워요!", model:"Thank you."}]}}
+    ]},
+  /* ===================== 5학년 (YBM 최희경) ===================== */
+  5:{ accent:"#ff6a3d", accentSoft:"rgba(255,122,77,.16)", emoji:"🦊", topic:"기초 회화",
+    lessons:[
+      /* ---------- Lesson 1 ---------- */
+      { num:1, title:"Where Are You From?", emoji:"🌍", hint:"출신 묻고 소개하기",
+        sentences:[
+          {e:"❓", en:"Where are you from?", ko:"너는 어디에서 왔니?"},
+          {e:"🇰🇷", en:"I'm from Korea.", ko:"나는 한국에서 왔어."},
+          {e:"🇫🇷", en:"I'm from France.", ko:"나는 프랑스에서 왔어."},
+          {e:"🇨🇦", en:"I'm from Canada.", ko:"나는 캐나다에서 왔어."},
+          {e:"🇰🇪", en:"I'm from Kenya.", ko:"나는 케냐에서 왔어."},
+          {e:"🇻🇳", en:"I'm from Vietnam.", ko:"나는 베트남에서 왔어."},
+          {e:"🇧🇷", en:"I'm from Brazil.", ko:"나는 브라질에서 왔어."},
+          {e:"🇦🇺", en:"I'm from Australia.", ko:"나는 오스트레일리아에서 왔어."},
+          {e:"🤝", en:"Nice to meet you.", ko:"만나서 반가워."},
+          {e:"😊", en:"Nice to meet you, too.", ko:"나도 만나서 반가워."},
+          {e:"🙋", en:"What's your name?", ko:"네 이름은 뭐니?"},
+          {e:"👋", en:"This is my friend, Amber.", ko:"이 아이는 내 친구 앰버야."},
+          {e:"🎉", en:"Welcome to Korea!", ko:"한국에 온 걸 환영해!"}],
+        dialog:{ scene:"새 친구 만나기", emoji:"🌍",
+          turns:[
+            {who:"npc", en:"Hi! Where are you from?", ko:"안녕! 너는 어디에서 왔니?"},
+            {who:"you", en:"I'm from ___.", ko:"나는 ___에서 왔어.", model:"I'm from Korea."},
+            {who:"npc", en:"I'm from France. Nice to meet you.", ko:"나는 프랑스에서 왔어. 만나서 반가워."},
+            {who:"you", en:"Nice to meet you, too.", ko:"나도 만나서 반가워.", model:"Nice to meet you, too."},
+            {who:"npc", en:"This is my friend, Amber.", ko:"이 아이는 내 친구 앰버야."},
+            {who:"you", en:"Nice to meet you, Amber.", ko:"만나서 반가워, 앰버.", model:"Nice to meet you, Amber."},
+            {who:"npc", en:"Welcome to Korea!", ko:"한국에 온 걸 환영해!"},
+            {who:"you", en:"Thank you!", ko:"고마워!", model:"Thank you."}]}},
+
+      /* ---------- Lesson 2 ---------- */
+      { num:2, title:"Can I Sit Here?", emoji:"🙋", hint:"허락 구하고 답하기",
+        sentences:[
+          {e:"❓", en:"Can I sit here?", ko:"여기에 앉아도 될까요?"},
+          {e:"✅", en:"Yes, you can.", ko:"네, 그래요."},
+          {e:"🚫", en:"Sorry, you can't.", ko:"미안하지만, 안 돼요."},
+          {e:"📷", en:"Can I take a picture?", ko:"사진을 찍어도 될까요?"},
+          {e:"🍪", en:"Can I have some cookies?", ko:"쿠키를 좀 먹어도 될까요?"},
+          {e:"🗺️", en:"Can I get a map?", ko:"지도를 얻을 수 있을까요?"},
+          {e:"🚪", en:"Can I come in?", ko:"들어가도 될까요?"},
+          {e:"✏️", en:"Can I use this pencil?", ko:"이 연필을 써도 될까요?"},
+          {e:"✋", en:"Can I touch that?", ko:"저것을 만져도 될까요?"},
+          {e:"🚲", en:"Can I ride a bike?", ko:"자전거를 타도 될까요?"},
+          {e:"🙏", en:"Thank you.", ko:"고마워요."},
+          {e:"😊", en:"You're welcome.", ko:"천만에요."},
+          {e:"🙌", en:"Here you are.", ko:"여기 있어요."}],
+        dialog:{ scene:"박물관에서 허락 구하기", emoji:"🏛️",
+          turns:[
+            {who:"npc", en:"Welcome!", ko:"어서 오세요!"},
+            {who:"you", en:"Can I take a picture?", ko:"사진을 찍어도 될까요?", model:"Can I take a picture?"},
+            {who:"npc", en:"Yes, you can.", ko:"네, 그래요."},
+            {who:"you", en:"Can I touch that?", ko:"저것을 만져도 될까요?", model:"Can I touch that?"},
+            {who:"npc", en:"Sorry, you can't.", ko:"미안하지만, 안 돼요."},
+            {who:"you", en:"Okay. Can I sit here?", ko:"알겠어요. 여기에 앉아도 될까요?", model:"Can I sit here?"},
+            {who:"npc", en:"Yes, you can.", ko:"네, 그래요."},
+            {who:"you", en:"Thank you!", ko:"고마워요!", model:"Thank you."}]}},
+
+      /* ---------- Lesson 3 ---------- */
+      { num:3, title:"My Favorite Subject Is Music", emoji:"🎵", hint:"좋아하는 과목 묻고 답하기",
+        sentences:[
+          {e:"❓", en:"What's your favorite subject?", ko:"네가 제일 좋아하는 과목은 무엇이니?"},
+          {e:"🎵", en:"My favorite subject is music.", ko:"내가 제일 좋아하는 과목은 음악이야."},
+          {e:"🎨", en:"My favorite subject is art.", ko:"내가 제일 좋아하는 과목은 미술이야."},
+          {e:"🔤", en:"My favorite subject is English.", ko:"내가 제일 좋아하는 과목은 영어야."},
+          {e:"🔬", en:"My favorite subject is science.", ko:"내가 제일 좋아하는 과목은 과학이야."},
+          {e:"➗", en:"My favorite subject is math.", ko:"내가 제일 좋아하는 과목은 수학이야."},
+          {e:"⚽", en:"My favorite subject is P.E.", ko:"내가 제일 좋아하는 과목은 체육이야."},
+          {e:"📖", en:"My favorite subject is Korean.", ko:"내가 제일 좋아하는 과목은 국어야."},
+          {e:"❓", en:"Do you like English?", ko:"너는 영어를 좋아하니?"},
+          {e:"👍", en:"Yes, I do.", ko:"응, 좋아해."},
+          {e:"🤖", en:"I like making robots.", ko:"나는 로봇 만드는 것을 좋아해."},
+          {e:"🎶", en:"I like singing songs.", ko:"나는 노래 부르는 것을 좋아해."},
+          {e:"📚", en:"We have English class today.", ko:"우리는 오늘 영어 수업이 있어."}],
+        dialog:{ scene:"좋아하는 과목 이야기", emoji:"🎒",
+          turns:[
+            {who:"npc", en:"What's your favorite subject?", ko:"네가 제일 좋아하는 과목은 무엇이니?"},
+            {who:"you", en:"My favorite subject is ___.", ko:"내가 제일 좋아하는 과목은 ___이야.", model:"My favorite subject is music."},
+            {who:"npc", en:"Do you like science?", ko:"너는 과학을 좋아하니?"},
+            {who:"you", en:"Yes, I do.", ko:"응, 좋아해.", model:"Yes, I do."},
+            {who:"npc", en:"My favorite subject is P.E.", ko:"내가 제일 좋아하는 과목은 체육이야."},
+            {who:"you", en:"Me, too!", ko:"나도!", model:"Me, too."},
+            {who:"npc", en:"We have P.E. class today!", ko:"우리 오늘 체육 수업이 있어!"},
+            {who:"you", en:"Great!", ko:"좋아!", model:"Great."}]}},
+
+      /* ---------- Lesson 4 ---------- */
+      { num:4, title:"What Time Do You Have Dinner?", emoji:"⏰", hint:"일과 시각 묻고 답하기",
+        sentences:[
+          {e:"❓", en:"What time do you get up?", ko:"너는 몇 시에 일어나니?"},
+          {e:"🌅", en:"I get up at seven.", ko:"나는 7시에 일어나."},
+          {e:"🏫", en:"I go to school at eight thirty.", ko:"나는 8시 30분에 학교에 가."},
+          {e:"🏠", en:"I get home at five.", ko:"나는 5시에 집에 와."},
+          {e:"🍽️", en:"I have dinner at seven.", ko:"나는 7시에 저녁을 먹어."},
+          {e:"🛏️", en:"I go to bed at nine.", ko:"나는 9시에 잠을 자."},
+          {e:"🐶", en:"I walk the dog at six.", ko:"나는 6시에 개를 산책시켜."},
+          {e:"🏃", en:"I exercise at six.", ko:"나는 6시에 운동해."},
+          {e:"⚽", en:"I have a soccer lesson at four.", ko:"나는 4시에 축구 수업이 있어."},
+          {e:"❓", en:"What time do you have dinner?", ko:"너는 몇 시에 저녁을 먹니?"},
+          {e:"❓", en:"What time do you go to bed?", ko:"너는 몇 시에 잠을 자니?"},
+          {e:"🙋", en:"How about you?", ko:"너는 어떠니?"},
+          {e:"⏰", en:"It's time for class.", ko:"수업할 시간이야."}],
+        dialog:{ scene:"하루 일과 인터뷰", emoji:"⏰",
+          turns:[
+            {who:"npc", en:"What time do you get up?", ko:"너는 몇 시에 일어나니?"},
+            {who:"you", en:"I get up at ___.", ko:"나는 ___시에 일어나.", model:"I get up at seven."},
+            {who:"npc", en:"What time do you have dinner?", ko:"너는 몇 시에 저녁을 먹니?"},
+            {who:"you", en:"I have dinner at ___.", ko:"나는 ___시에 저녁을 먹어.", model:"I have dinner at seven."},
+            {who:"npc", en:"What time do you go to bed?", ko:"너는 몇 시에 잠을 자니?"},
+            {who:"you", en:"I go to bed at ___.", ko:"나는 ___시에 잠을 자.", model:"I go to bed at nine."},
+            {who:"npc", en:"That's great! How about you, ask me!", ko:"좋아! 이제 나한테 물어봐!"},
+            {who:"you", en:"How about you?", ko:"너는 어떠니?", model:"How about you?"}]}},
+
+      /* ---------- Lesson 5 ---------- */
+      { num:5, title:"Whose Bottle Is This?", emoji:"🍶", hint:"누구의 것인지 묻고 묘사하기",
+        sentences:[
+          {e:"❓", en:"Whose bottle is this?", ko:"이것은 누구의 병이니?"},
+          {e:"🍶", en:"It's Amber's.", ko:"그것은 앰버 거야."},
+          {e:"📱", en:"Whose phone is this?", ko:"이것은 누구의 휴대 전화니?"},
+          {e:"🙋", en:"It's mine.", ko:"그것은 내 거야."},
+          {e:"⌚", en:"Whose watch is this?", ko:"이것은 누구의 손목시계니?"},
+          {e:"🧤", en:"Whose glove is this?", ko:"이것은 누구의 장갑이니?"},
+          {e:"☂️", en:"Whose umbrella is this?", ko:"이것은 누구의 우산이니?"},
+          {e:"👟", en:"Whose shoe is this?", ko:"이것은 누구의 신발이니?"},
+          {e:"⭐", en:"It has a yellow star.", ko:"노란색 별이 하나 있어."},
+          {e:"💗", en:"It has pink hearts.", ko:"분홍색 하트가 여러 개 있어."},
+          {e:"❓", en:"Is this your watch?", ko:"이것은 네 손목시계니?"},
+          {e:"✅", en:"Yes, it is.", ko:"응, 맞아."},
+          {e:"🟢", en:"Mine is green.", ko:"내 것은 초록색이야."}],
+        dialog:{ scene:"잃어버린 물건 찾기", emoji:"🔎",
+          turns:[
+            {who:"npc", en:"Whose bottle is this?", ko:"이것은 누구의 병이니?"},
+            {who:"you", en:"It's ___.", ko:"그것은 ___ 거야.", model:"It's Amber's."},
+            {who:"npc", en:"It has pink hearts. Is this your bottle?", ko:"분홍색 하트가 있어. 이거 네 병이니?"},
+            {who:"you", en:"No, it's not. Mine is green.", ko:"아니야. 내 것은 초록색이야.", model:"No, it's not. Mine is green."},
+            {who:"npc", en:"Whose phone is this?", ko:"이것은 누구의 휴대 전화니?"},
+            {who:"you", en:"It's mine!", ko:"그건 내 거야!", model:"It's mine."},
+            {who:"npc", en:"Here you are.", ko:"여기 있어."},
+            {who:"you", en:"Thank you!", ko:"고마워!", model:"Thank you."}]}},
+
+      /* ---------- Lesson 6 ---------- */
+      { num:6, title:"What Will You Do This Summer?", emoji:"☀️", hint:"여름 계획 묻고 답하기",
+        sentences:[
+          {e:"❓", en:"What will you do this summer?", ko:"너는 이번 여름에 무엇을 할 거니?"},
+          {e:"📚", en:"I will read many books.", ko:"나는 책을 많이 읽을 거야."},
+          {e:"🏖️", en:"I will go to the beach.", ko:"나는 해변에 갈 거야."},
+          {e:"👧", en:"I will visit my cousin.", ko:"나는 사촌을 방문할 거야."},
+          {e:"🔬", en:"I will go to a science camp.", ko:"나는 과학 캠프에 갈 거야."},
+          {e:"🤖", en:"I will make a robot.", ko:"나는 로봇을 만들 거야."},
+          {e:"📖", en:"I will go to the library.", ko:"나는 도서관에 갈 거야."},
+          {e:"♻️", en:"I will use less plastic.", ko:"나는 플라스틱을 덜 쓸 거야."},
+          {e:"🗑️", en:"I will pick up trash.", ko:"나는 쓰레기를 주울 거야."},
+          {e:"💡", en:"I will save energy.", ko:"나는 에너지를 절약할 거야."},
+          {e:"🌍", en:"I will help the Earth.", ko:"나는 지구를 도울 거야."},
+          {e:"👍", en:"That sounds good.", ko:"그거 좋다."},
+          {e:"🌟", en:"That sounds great.", ko:"그거 정말 좋다."}],
+        dialog:{ scene:"여름방학 계획 세우기", emoji:"☀️",
+          turns:[
+            {who:"npc", en:"What will you do this summer?", ko:"너는 이번 여름에 무엇을 할 거니?"},
+            {who:"you", en:"I will ___.", ko:"나는 ___ 할 거야.", model:"I will read many books."},
+            {who:"npc", en:"That sounds good! I will go to the beach.", ko:"그거 좋다! 나는 해변에 갈 거야."},
+            {who:"you", en:"That sounds great!", ko:"그거 정말 좋다!", model:"That sounds great."},
+            {who:"npc", en:"What will you do for the Earth?", ko:"지구를 위해 무엇을 할 거니?"},
+            {who:"you", en:"I will pick up trash.", ko:"나는 쓰레기를 주울 거야.", model:"I will pick up trash."},
+            {who:"npc", en:"Good idea!", ko:"좋은 생각이야!"},
+            {who:"you", en:"I will use less plastic, too.", ko:"플라스틱도 덜 쓸 거야.", model:"I will use less plastic."}]}},
+
+      /* ---------- Lesson 7 ---------- */
+      { num:7, title:"I Went to Dokdo", emoji:"🏝️", hint:"과거에 한 일 묻고 답하기",
+        sentences:[
+          {e:"❓", en:"What did you do during the vacation?", ko:"너는 방학 동안 무엇을 했니?"},
+          {e:"🏝️", en:"I went to Dokdo.", ko:"나는 독도에 갔었어."},
+          {e:"🏊", en:"I swam at the beach.", ko:"나는 해변에서 수영했어."},
+          {e:"🚤", en:"I rode in a boat.", ko:"나는 보트를 탔어."},
+          {e:"📷", en:"I took pictures.", ko:"나는 사진을 찍었어."},
+          {e:"🍉", en:"I ate watermelon.", ko:"나는 수박을 먹었어."},
+          {e:"⭐", en:"I saw many stars.", ko:"나는 별을 많이 봤어."},
+          {e:"👵", en:"I visited my grandma.", ko:"나는 할머니를 방문했어."},
+          {e:"🏕️", en:"I went camping.", ko:"나는 캠핑을 갔었어."},
+          {e:"❓", en:"How was your vacation?", ko:"방학은 어땠니?"},
+          {e:"😄", en:"It was great.", ko:"아주 좋았어."},
+          {e:"👋", en:"Good to see you again.", ko:"다시 만나서 반가워."},
+          {e:"❓", en:"What did you do last weekend?", ko:"너는 지난 주말에 무엇을 했니?"}],
+        dialog:{ scene:"방학 이야기 나누기", emoji:"🏝️",
+          turns:[
+            {who:"npc", en:"Good to see you again! How was your vacation?", ko:"다시 만나서 반가워! 방학은 어땠니?"},
+            {who:"you", en:"It was great.", ko:"아주 좋았어.", model:"It was great."},
+            {who:"npc", en:"What did you do during the vacation?", ko:"방학 동안 무엇을 했니?"},
+            {who:"you", en:"I ___.", ko:"나는 ___.", model:"I went to Dokdo."},
+            {who:"npc", en:"Wow! What did you do there?", ko:"우와! 거기서 뭐 했어?"},
+            {who:"you", en:"I took pictures.", ko:"나는 사진을 찍었어.", model:"I took pictures."},
+            {who:"npc", en:"That sounds fun!", ko:"재미있었겠다!"},
+            {who:"you", en:"I swam at the beach, too.", ko:"해변에서 수영도 했어.", model:"I swam at the beach."}]}},
+
+      /* ---------- Lesson 8 ---------- */
+      { num:8, title:"What Does He Look Like?", emoji:"🧑‍🦱", hint:"생김새·옷차림 묻고 답하기",
+        sentences:[
+          {e:"❓", en:"What does he look like?", ko:"그는 어떻게 생겼니?"},
+          {e:"❓", en:"What does she look like?", ko:"그녀는 어떻게 생겼니?"},
+          {e:"🧑‍🦱", en:"He has short curly hair.", ko:"그는 짧은 곱슬머리야."},
+          {e:"👩", en:"She has long straight hair.", ko:"그녀는 긴 생머리야."},
+          {e:"🧑", en:"He has short straight hair.", ko:"그는 짧은 생머리야."},
+          {e:"👩‍🦰", en:"She has long curly hair.", ko:"그녀는 긴 곱슬머리야."},
+          {e:"👕", en:"He's wearing a green T-shirt.", ko:"그는 초록색 티셔츠를 입고 있어."},
+          {e:"👗", en:"She's wearing a yellow dress.", ko:"그녀는 노란색 원피스를 입고 있어."},
+          {e:"👓", en:"He's wearing black glasses.", ko:"그는 검은색 안경을 쓰고 있어."},
+          {e:"👚", en:"She's wearing a red T-shirt.", ko:"그녀는 빨간색 티셔츠를 입고 있어."},
+          {e:"📏", en:"He is tall.", ko:"그는 키가 커."},
+          {e:"🧢", en:"He's wearing a cap.", ko:"그는 모자를 쓰고 있어."},
+          {e:"👀", en:"He has big eyes.", ko:"그는 눈이 커."}],
+        dialog:{ scene:"야구장에서 친구 찾기", emoji:"⚾",
+          turns:[
+            {who:"npc", en:"What does your friend look like?", ko:"네 친구는 어떻게 생겼니?"},
+            {who:"you", en:"He has ___ hair.", ko:"그는 ___ 머리야.", model:"He has short curly hair."},
+            {who:"npc", en:"What is he wearing?", ko:"그는 무엇을 입고 있니?"},
+            {who:"you", en:"He's wearing a green T-shirt.", ko:"그는 초록색 티셔츠를 입고 있어.", model:"He's wearing a green T-shirt."},
+            {who:"npc", en:"Is he tall?", ko:"그는 키가 크니?"},
+            {who:"you", en:"Yes, he is tall.", ko:"응, 키가 커.", model:"He is tall."},
+            {who:"npc", en:"I can see him now!", ko:"이제 보인다!"},
+            {who:"you", en:"Great!", ko:"좋아!", model:"Great."}]}},
+
+      /* ---------- Lesson 9 ---------- */
+      { num:9, title:"Where Is the Baseball Park?", emoji:"🧭", hint:"길 묻고 답하기",
+        sentences:[
+          {e:"🙋", en:"Excuse me.", ko:"실례합니다."},
+          {e:"❓", en:"Where is the baseball park?", ko:"야구장이 어디에 있나요?"},
+          {e:"❓", en:"Where is the bus stop?", ko:"버스 정류장이 어디에 있나요?"},
+          {e:"⬆️", en:"Go straight.", ko:"직진하세요."},
+          {e:"➡️", en:"Turn right.", ko:"오른쪽으로 도세요."},
+          {e:"⬅️", en:"Turn left.", ko:"왼쪽으로 도세요."},
+          {e:"🧭", en:"Go straight and turn right.", ko:"직진해서 오른쪽으로 도세요."},
+          {e:"🧭", en:"Go straight and turn left.", ko:"직진해서 왼쪽으로 도세요."},
+          {e:"🏬", en:"It's on your left.", ko:"그것은 왼쪽에 있어요."},
+          {e:"🏪", en:"It's on your right.", ko:"그것은 오른쪽에 있어요."},
+          {e:"🍩", en:"Where is the donut shop?", ko:"도넛 가게가 어디에 있나요?"},
+          {e:"🙏", en:"Thank you.", ko:"고마워요."},
+          {e:"😊", en:"You're welcome.", ko:"천만에요."}],
+        dialog:{ scene:"길 안내하기", emoji:"🧭",
+          turns:[
+            {who:"npc", en:"Excuse me. Where is the baseball park?", ko:"실례합니다. 야구장이 어디에 있나요?"},
+            {who:"you", en:"Go straight and turn ___.", ko:"직진해서 ___으로 도세요.", model:"Go straight and turn right."},
+            {who:"npc", en:"Where is the bus stop?", ko:"버스 정류장은 어디에 있나요?"},
+            {who:"you", en:"Go straight and turn left.", ko:"직진해서 왼쪽으로 도세요.", model:"Go straight and turn left."},
+            {who:"npc", en:"Is it on my left?", ko:"제 왼쪽에 있나요?"},
+            {who:"you", en:"Yes, it's on your left.", ko:"네, 왼쪽에 있어요.", model:"It's on your left."},
+            {who:"npc", en:"Thank you!", ko:"고마워요!"},
+            {who:"you", en:"You're welcome.", ko:"천만에요.", model:"You're welcome."}]}},
+
+      /* ---------- Lesson 10 ---------- */
+      { num:10, title:"How Much Are These Socks?", emoji:"🛍️", hint:"가격과 정보 묻고 답하기",
+        sentences:[
+          {e:"❓", en:"How much are these socks?", ko:"이 양말은 얼마인가요?"},
+          {e:"💰", en:"They're one thousand won.", ko:"1,000원이에요."},
+          {e:"🧤", en:"How much are these gloves?", ko:"이 장갑은 얼마인가요?"},
+          {e:"👖", en:"How much are these pants?", ko:"이 바지는 얼마인가요?"},
+          {e:"👟", en:"How much are these shoes?", ko:"이 신발은 얼마인가요?"},
+          {e:"🕶️", en:"How much are these sunglasses?", ko:"이 선글라스는 얼마인가요?"},
+          {e:"🏷️", en:"They're on sale.", ko:"그것들은 할인 중이에요."},
+          {e:"🙋", en:"Can I help you?", ko:"도와드릴까요?"},
+          {e:"❓", en:"What size do you want?", ko:"어떤 크기를 원하세요?"},
+          {e:"🤏", en:"Small, please.", ko:"작은 걸로 주세요."},
+          {e:"🛍️", en:"I'll take them.", ko:"그것들을 살게요."},
+          {e:"💸", en:"They cost too much.", ko:"너무 비싸요."},
+          {e:"🙌", en:"Here you are.", ko:"여기 있어요."}],
+        dialog:{ scene:"가게에서 물건 사기", emoji:"🛍️",
+          turns:[
+            {who:"npc", en:"Can I help you?", ko:"도와드릴까요?"},
+            {who:"you", en:"Yes, please. How much are these ___?", ko:"네. 이 ___은 얼마인가요?", model:"How much are these gloves?"},
+            {who:"npc", en:"They're ten thousand won.", ko:"10,000원이에요."},
+            {who:"you", en:"I'll take them.", ko:"그것들을 살게요.", model:"I'll take them."},
+            {who:"npc", en:"What size do you want?", ko:"어떤 크기를 원하세요?"},
+            {who:"you", en:"Small, please.", ko:"작은 걸로 주세요.", model:"Small, please."},
+            {who:"npc", en:"Here you are.", ko:"여기 있어요."},
+            {who:"you", en:"Thank you!", ko:"고마워요!", model:"Thank you."}]}},
+
+      /* ---------- Lesson 11 ---------- */
+      { num:11, title:"What's in the Kitchen?", emoji:"🏠", hint:"방과 물건의 위치 말하기",
+        sentences:[
+          {e:"❓", en:"What's in the kitchen?", ko:"부엌에는 무엇이 있니?"},
+          {e:"🛏️", en:"What's in the bedroom?", ko:"침실에는 무엇이 있니?"},
+          {e:"🛋️", en:"What's in the living room?", ko:"거실에는 무엇이 있니?"},
+          {e:"🛁", en:"What's in the bathroom?", ko:"욕실에는 무엇이 있니?"},
+          {e:"🛏️", en:"There is a big bed.", ko:"큰 침대가 하나 있어."},
+          {e:"🖼️", en:"There is a picture.", ko:"그림이 하나 있어."},
+          {e:"💨", en:"There is a hairdryer.", ko:"헤어드라이어가 하나 있어."},
+          {e:"🪟", en:"There is a clock under the window.", ko:"창문 아래에 시계가 있어."},
+          {e:"🪑", en:"There are two chairs.", ko:"의자가 두 개 있어."},
+          {e:"🍽️", en:"There are two tables.", ko:"탁자가 두 개 있어."},
+          {e:"🐱", en:"Do you have a cat?", ko:"고양이를 키우니?"},
+          {e:"👍", en:"Yes, I do.", ko:"응, 키워."},
+          {e:"🏡", en:"This is my new house.", ko:"이곳은 우리 새 집이야."}],
+        dialog:{ scene:"새 집 구경하기", emoji:"🏠",
+          turns:[
+            {who:"npc", en:"This is my new house!", ko:"이곳은 우리 새 집이야!"},
+            {who:"you", en:"Wow! What's in your bedroom?", ko:"우와! 침실에는 무엇이 있니?", model:"What's in the bedroom?"},
+            {who:"npc", en:"There is a big bed.", ko:"큰 침대가 하나 있어."},
+            {who:"you", en:"What's in the living room?", ko:"거실에는 무엇이 있니?", model:"What's in the living room?"},
+            {who:"npc", en:"There is a picture of my family.", ko:"우리 가족 사진이 하나 있어."},
+            {who:"you", en:"Do you have a cat?", ko:"고양이를 키우니?", model:"Do you have a cat?"},
+            {who:"npc", en:"Yes, I do!", ko:"응, 키워!"},
+            {who:"you", en:"Your house is great!", ko:"너희 집 멋지다!", model:"Your house is great."}]}},
+
+      /* ---------- Lesson 12 ---------- */
+      { num:12, title:"What Do You Want to Do?", emoji:"⛺", hint:"하고 싶은 일 묻고 제안하기",
+        sentences:[
+          {e:"❓", en:"What do you want to do?", ko:"너는 무엇을 하고 싶니?"},
+          {e:"🥾", en:"I want to go hiking.", ko:"나는 하이킹하러 가고 싶어."},
+          {e:"⛺", en:"I want to go camping.", ko:"나는 캠핑하러 가고 싶어."},
+          {e:"⛸️", en:"I want to go ice-skating.", ko:"나는 스케이트 타러 가고 싶어."},
+          {e:"🎣", en:"I want to go fishing.", ko:"나는 낚시하러 가고 싶어."},
+          {e:"🎸", en:"I want to learn the guitar.", ko:"나는 기타를 배우고 싶어."},
+          {e:"🎬", en:"I want to make a video.", ko:"나는 영상을 만들고 싶어."},
+          {e:"🚶", en:"I want to take a walk.", ko:"나는 산책하고 싶어."},
+          {e:"⛺", en:"Let's go camping.", ko:"캠핑하러 가자."},
+          {e:"🥾", en:"Let's go hiking.", ko:"하이킹하러 가자."},
+          {e:"💡", en:"That's a good idea.", ko:"좋은 생각이야."},
+          {e:"🌟", en:"That sounds fun.", ko:"재미있겠다."},
+          {e:"🙌", en:"Let's do it together.", ko:"같이 하자."}],
+        dialog:{ scene:"겨울방학 하고 싶은 일", emoji:"⛺",
+          turns:[
+            {who:"npc", en:"What do you want to do this winter?", ko:"이번 겨울에 무엇을 하고 싶니?"},
+            {who:"you", en:"I want to ___.", ko:"나는 ___ 하고 싶어.", model:"I want to go hiking."},
+            {who:"npc", en:"That sounds fun! I want to go ice-skating.", ko:"재미있겠다! 나는 스케이트 타러 가고 싶어."},
+            {who:"you", en:"Let's go ice-skating together!", ko:"같이 스케이트 타러 가자!", model:"Let's go ice-skating."},
+            {who:"npc", en:"That's a good idea! What else do you want to do?", ko:"좋은 생각이야! 또 뭘 하고 싶어?"},
+            {who:"you", en:"I want to make a video.", ko:"나는 영상을 만들고 싶어.", model:"I want to make a video."},
+            {who:"npc", en:"Can I help you?", ko:"내가 도와줄까?"},
+            {who:"you", en:"Sure. Let's do it together.", ko:"좋아. 같이 하자.", model:"Let's do it together."}]}}
+    ]},
+  6:{ accent:"#7a52e8", accentSoft:"rgba(155,123,255,.16)", emoji:"🦉", topic:"기초 회화",
+    lessons:[
+      /* ---------- Lesson 1 ---------- */
+      { num:1, title:"I'm in the Sixth Grade", emoji:"🏫", hint:"학년과 교실 위치 묻고 답하기",
+        sentences:[
+          {e:"🏫", en:"What grade are you in?", ko:"너는 몇 학년이니?"},
+          {e:"6️⃣", en:"I'm in the sixth grade.", ko:"나는 6학년이야."},
+          {e:"🚪", en:"Where is your classroom?", ko:"너의 교실은 어디에 있니?"},
+          {e:"1️⃣", en:"It's on the first floor.", ko:"1층에 있어."},
+          {e:"4️⃣", en:"It's on the fourth floor.", ko:"4층에 있어."},
+          {e:"🔬", en:"Go to the science room.", ko:"과학실로 가렴."},
+          {e:"💻", en:"The computer room is on the third floor.", ko:"컴퓨터실은 3층에 있어."}],
+        dialog:{ scene:"새 친구와 학교에서", emoji:"🙋",
+          turns:[
+            {who:"npc", en:"Hi! What grade are you in?", ko:"안녕! 너는 몇 학년이니?"},
+            {who:"you", en:"I'm in the sixth grade.", ko:"나는 6학년이야.", model:"I'm in the sixth grade."},
+            {who:"npc", en:"Where is your classroom?", ko:"너의 교실은 어디에 있니?"},
+            {who:"you", en:"It's on the fourth floor.", ko:"4층에 있어.", model:"It's on the fourth floor."},
+            {who:"npc", en:"Where is the science room?", ko:"과학실은 어디에 있니?"},
+            {who:"you", en:"It's on the second floor.", ko:"2층에 있어.", model:"It's on the second floor."},
+            {who:"npc", en:"Thank you! See you next time.", ko:"고마워! 다음에 보자."},
+            {who:"you", en:"See you!", ko:"또 봐!", model:"See you."}]}},
+
+      /* ---------- Lesson 2 ---------- */
+      { num:2, title:"What Do You Want To Be?", emoji:"🌟", hint:"장래 희망 말하기",
+        sentences:[
+          {e:"🌟", en:"What do you want to be?", ko:"너는 무엇이 되고 싶니?"},
+          {e:"🎵", en:"I want to be a musical actor.", ko:"나는 뮤지컬 배우가 되고 싶어."},
+          {e:"🚀", en:"I want to be an astronaut.", ko:"나는 우주 비행사가 되고 싶어."},
+          {e:"⚽", en:"I want to be a soccer player.", ko:"나는 축구 선수가 되고 싶어."},
+          {e:"🍳", en:"I want to be a cook.", ko:"나는 요리사가 되고 싶어."},
+          {e:"🦁", en:"I want to be a zookeeper.", ko:"나는 사육사가 되고 싶어."},
+          {e:"🎹", en:"I'm good at playing the piano.", ko:"나는 피아노 치는 것을 잘해."}],
+        dialog:{ scene:"꿈 축제에서", emoji:"💭",
+          turns:[
+            {who:"npc", en:"What do you want to be?", ko:"너는 무엇이 되고 싶니?"},
+            {who:"you", en:"I want to be a soccer player.", ko:"나는 축구 선수가 되고 싶어.", model:"I want to be a soccer player."},
+            {who:"npc", en:"That's a good idea. You're good at kicking the ball.", ko:"좋은 생각이야. 너는 공을 잘 차잖아."},
+            {who:"you", en:"Thanks.", ko:"고마워.", model:"Thanks."},
+            {who:"npc", en:"What are you good at?", ko:"너는 무엇을 잘하니?"},
+            {who:"you", en:"I'm good at running.", ko:"나는 달리기를 잘해.", model:"I'm good at running."},
+            {who:"npc", en:"Wow, that's great!", ko:"와, 멋지다!"},
+            {who:"you", en:"Thank you.", ko:"고마워.", model:"Thank you."}]}},
+
+      /* ---------- Lesson 3 ---------- */
+      { num:3, title:"When Is Your Birthday?", emoji:"🎂", hint:"날짜 묻기 · 초대하고 답하기",
+        sentences:[
+          {e:"🎂", en:"When is your birthday?", ko:"너의 생일은 언제니?"},
+          {e:"📅", en:"It's on May 12th.", ko:"5월 12일이야."},
+          {e:"🎉", en:"It's on June 4th.", ko:"6월 4일이야."},
+          {e:"🎈", en:"Can you come to my birthday party?", ko:"내 생일 파티에 올 수 있니?"},
+          {e:"👍", en:"Sure, I can.", ko:"그럼, 갈 수 있어."},
+          {e:"🙏", en:"Sorry, I can't.", ko:"미안해, 갈 수 없어."},
+          {e:"⚽", en:"When is the soccer game?", ko:"축구 경기는 언제니?"}],
+        dialog:{ scene:"생일 초대하기", emoji:"🎈",
+          turns:[
+            {who:"npc", en:"When is your birthday?", ko:"너의 생일은 언제니?"},
+            {who:"you", en:"It's on May 12th.", ko:"5월 12일이야.", model:"It's on May 12th."},
+            {who:"npc", en:"Can you come to my birthday party?", ko:"내 생일 파티에 올 수 있니?"},
+            {who:"you", en:"Sure, I can.", ko:"그럼, 갈 수 있어.", model:"Sure, I can."},
+            {who:"npc", en:"My party is on June 4th.", ko:"내 파티는 6월 4일이야."},
+            {who:"you", en:"Okay, see you then!", ko:"좋아, 그때 보자!", model:"Okay, see you then."},
+            {who:"npc", en:"Thank you!", ko:"고마워!"},
+            {who:"you", en:"You're welcome.", ko:"천만에.", model:"You're welcome."}]}},
+
+      /* ---------- Lesson 4 ---------- */
+      { num:4, title:"What's Wrong?", emoji:"🤒", hint:"아픈 곳 말하고 조언하기",
+        sentences:[
+          {e:"🤒", en:"What's wrong?", ko:"어디가 아프니?"},
+          {e:"🤧", en:"I have a cold.", ko:"나는 감기에 걸렸어."},
+          {e:"🌡️", en:"I have a fever.", ko:"나는 열이 나."},
+          {e:"🤕", en:"I have a headache.", ko:"나는 두통이 있어."},
+          {e:"🦷", en:"I have a toothache.", ko:"나는 치통이 있어."},
+          {e:"💊", en:"You should take some medicine.", ko:"너는 약을 좀 먹어야 해."},
+          {e:"🛌", en:"You should get some rest.", ko:"너는 휴식을 좀 취해야 해."}],
+        dialog:{ scene:"보건실에서", emoji:"🩺",
+          turns:[
+            {who:"npc", en:"What's wrong?", ko:"어디가 아프니?"},
+            {who:"you", en:"I have a cold.", ko:"나는 감기에 걸렸어.", model:"I have a cold."},
+            {who:"npc", en:"That's too bad. You should go to bed early.", ko:"그거 안됐구나. 너는 일찍 자야 해."},
+            {who:"you", en:"Okay, I will.", ko:"응, 그럴게.", model:"Okay, I will."},
+            {who:"npc", en:"You should drink warm water, too.", ko:"따뜻한 물도 마셔야 해."},
+            {who:"you", en:"Thank you.", ko:"고마워.", model:"Thank you."},
+            {who:"npc", en:"Take care!", ko:"몸조심해!"},
+            {who:"you", en:"Bye.", ko:"안녕.", model:"Bye."}]}},
+
+      /* ---------- Lesson 5 ---------- */
+      { num:5, title:"Who Painted This Picture?", emoji:"🎨", hint:"누가 만들었는지 묻고 답하기",
+        sentences:[
+          {e:"🎨", en:"Who painted this picture?", ko:"누가 이 그림을 그렸니?"},
+          {e:"🖼️", en:"Van Gogh did.", ko:"반 고흐가 그렸어."},
+          {e:"🚢", en:"Who made this ship?", ko:"누가 이 배를 만들었니?"},
+          {e:"🛠️", en:"Yi Sunsin did.", ko:"이순신이 만들었어."},
+          {e:"📖", en:"Who wrote this book?", ko:"누가 이 책을 썼니?"},
+          {e:"🏛️", en:"Who built this house?", ko:"누가 이 집을 지었니?"},
+          {e:"❓", en:"Excuse me?", ko:"다시 한번 말해 줄래?"}],
+        dialog:{ scene:"미술관 구경하기", emoji:"🖼️",
+          turns:[
+            {who:"npc", en:"Look at this picture. Who painted this?", ko:"이 그림 좀 봐. 누가 이걸 그렸니?"},
+            {who:"you", en:"Van Gogh did.", ko:"반 고흐가 그렸어.", model:"Van Gogh did."},
+            {who:"npc", en:"Excuse me?", ko:"다시 한번 말해 줄래?"},
+            {who:"you", en:"Van Gogh did.", ko:"반 고흐가 그렸어.", model:"Van Gogh did."},
+            {who:"npc", en:"Wow, it's great. Who built this house?", ko:"와, 멋지다. 누가 이 집을 지었니?"},
+            {who:"you", en:"Gaudi did.", ko:"가우디가 지었어.", model:"Gaudi did."},
+            {who:"npc", en:"That's amazing!", ko:"정말 놀랍다!"},
+            {who:"you", en:"Yes, it is.", ko:"응, 맞아.", model:"Yes, it is."}]}},
+
+      /* ---------- Lesson 6 ---------- */
+      { num:6, title:"I'm Going to Play Soccer", emoji:"⚽", hint:"주말·미래 계획 말하기",
+        sentences:[
+          {e:"🗓️", en:"What are you going to do this weekend?", ko:"너는 이번 주말에 무엇을 할 거니?"},
+          {e:"⚽", en:"I'm going to play soccer.", ko:"나는 축구를 할 거야."},
+          {e:"🏠", en:"I'm going to stay home.", ko:"나는 집에 있을 거야."},
+          {e:"👵", en:"I'm going to visit my grandmother.", ko:"나는 할머니 댁에 갈 거야."},
+          {e:"🎬", en:"I'm going to watch a movie.", ko:"나는 영화를 볼 거야."},
+          {e:"🔬", en:"I'm going to do a science project.", ko:"나는 과학 프로젝트를 할 거야."},
+          {e:"😊", en:"Have a good time.", ko:"좋은 시간 보내."}],
+        dialog:{ scene:"주말 계획 이야기하기", emoji:"🗓️",
+          turns:[
+            {who:"npc", en:"What are you going to do this weekend?", ko:"이번 주말에 무엇을 할 거니?"},
+            {who:"you", en:"I'm going to play soccer.", ko:"나는 축구를 할 거야.", model:"I'm going to play soccer."},
+            {who:"npc", en:"Sounds great! Can I join you?", ko:"멋지다! 같이 해도 돼?"},
+            {who:"you", en:"Sure!", ko:"그럼!", model:"Sure."},
+            {who:"npc", en:"What time does it start?", ko:"몇 시에 시작해?"},
+            {who:"you", en:"It starts at two.", ko:"2시에 시작해.", model:"It starts at two."},
+            {who:"npc", en:"Okay. Have a good time!", ko:"좋아. 좋은 시간 보내!"},
+            {who:"you", en:"Thank you!", ko:"고마워!", model:"Thank you."}]}},
+
+      /* ---------- Lesson 7 ---------- */
+      { num:7, title:"I'd Like to Have Watermelon Juice", emoji:"🍉", hint:"음식 주문하고 맛 말하기",
+        sentences:[
+          {e:"🍽️", en:"What would you like to have?", ko:"무엇을 드시겠어요?"},
+          {e:"🍉", en:"I'd like to have watermelon juice.", ko:"저는 수박주스를 마실게요."},
+          {e:"🍝", en:"I'd like to have cheese spaghetti.", ko:"저는 치즈스파게티를 먹을게요."},
+          {e:"🍛", en:"I'd like to have chicken curry.", ko:"저는 닭고기카레를 먹을게요."},
+          {e:"😋", en:"How's your spaghetti?", ko:"스파게티 맛은 어때?"},
+          {e:"🌶️", en:"It's hot.", ko:"매워."},
+          {e:"🍰", en:"It's sweet.", ko:"달콤해."}],
+        dialog:{ scene:"식당에서 주문하기", emoji:"🍽️",
+          turns:[
+            {who:"npc", en:"What would you like to have?", ko:"무엇을 드시겠어요?"},
+            {who:"you", en:"I'd like to have watermelon juice.", ko:"저는 수박주스를 마실게요.", model:"I'd like to have watermelon juice."},
+            {who:"npc", en:"Here you are. How's your juice?", ko:"여기 있어요. 주스 맛은 어때요?"},
+            {who:"you", en:"It's sweet.", ko:"달콤해요.", model:"It's sweet."},
+            {who:"npc", en:"Would you like some cake, too?", ko:"케이크도 드시겠어요?"},
+            {who:"you", en:"Yes, please.", ko:"네, 주세요.", model:"Yes, please."},
+            {who:"npc", en:"Enjoy your meal!", ko:"맛있게 드세요!"},
+            {who:"you", en:"Thank you.", ko:"고마워요.", model:"Thank you."}]}},
+
+      /* ---------- Lesson 8 ---------- */
+      { num:8, title:"Who Is Faster?", emoji:"🏃", hint:"비교하여 묻고 답하기",
+        sentences:[
+          {e:"🏃", en:"Who is faster?", ko:"누가 더 빠르니?"},
+          {e:"⚡", en:"Yuna is faster than Minh.", ko:"유나가 민보다 더 빨라."},
+          {e:"📏", en:"Who is taller?", ko:"누가 더 키가 크니?"},
+          {e:"💪", en:"Who is stronger?", ko:"누가 더 힘이 세니?"},
+          {e:"⚖️", en:"Which is heavier?", ko:"어느 것이 더 무겁니?"},
+          {e:"🍎", en:"The apple is heavier than the orange.", ko:"사과가 오렌지보다 더 무거워."},
+          {e:"📐", en:"Which is longer?", ko:"어느 것이 더 기니?"}],
+        dialog:{ scene:"과학의 날 비교하기", emoji:"⚖️",
+          turns:[
+            {who:"npc", en:"Who is faster?", ko:"누가 더 빠르니?"},
+            {who:"you", en:"Yuna is faster than Minh.", ko:"유나가 민보다 더 빨라.", model:"Yuna is faster than Minh."},
+            {who:"npc", en:"Who is taller?", ko:"누가 더 키가 크니?"},
+            {who:"you", en:"Minh is taller than Yuna.", ko:"민이 유나보다 더 키가 커.", model:"Minh is taller than Yuna."},
+            {who:"npc", en:"Which is heavier, the apple or the orange?", ko:"사과와 오렌지 중 어느 것이 더 무겁니?"},
+            {who:"you", en:"The apple is heavier.", ko:"사과가 더 무거워.", model:"The apple is heavier."},
+            {who:"npc", en:"Right! Good job.", ko:"맞아! 잘했어."},
+            {who:"you", en:"Thanks!", ko:"고마워!", model:"Thanks."}]}},
+
+      /* ---------- Lesson 9 ---------- */
+      { num:9, title:"How Can I Get to the Library?", emoji:"🗺️", hint:"길 묻고 안내하기",
+        sentences:[
+          {e:"🗺️", en:"How can I get to the library?", ko:"도서관에 어떻게 갈 수 있나요?"},
+          {e:"🚌", en:"You can get there by bus.", ko:"버스를 타고 갈 수 있어요."},
+          {e:"🚇", en:"You can get there by subway.", ko:"지하철을 타고 갈 수 있어요."},
+          {e:"🚶", en:"You can get there on foot.", ko:"걸어서 갈 수 있어요."},
+          {e:"🏥", en:"How can I get to the hospital?", ko:"병원에 어떻게 갈 수 있나요?"},
+          {e:"🏦", en:"It's next to the bank.", ko:"그곳은 은행 옆에 있어요."},
+          {e:"🚕", en:"You can get there by taxi.", ko:"택시를 타고 갈 수 있어요."}],
+        dialog:{ scene:"길 안내하기", emoji:"🧭",
+          turns:[
+            {who:"npc", en:"Excuse me. How can I get to the library?", ko:"실례합니다. 도서관에 어떻게 갈 수 있나요?"},
+            {who:"you", en:"You can get there by bus.", ko:"버스를 타고 갈 수 있어요.", model:"You can get there by bus."},
+            {who:"npc", en:"Where is the bus stop?", ko:"버스 정류장은 어디에 있나요?"},
+            {who:"you", en:"It's next to the bank.", ko:"은행 옆에 있어요.", model:"It's next to the bank."},
+            {who:"npc", en:"Thank you. How can I get to the zoo?", ko:"고마워요. 동물원은 어떻게 갈 수 있나요?"},
+            {who:"you", en:"You can get there by subway.", ko:"지하철을 타고 갈 수 있어요.", model:"You can get there by subway."},
+            {who:"npc", en:"Thank you very much!", ko:"정말 감사합니다!"},
+            {who:"you", en:"You're welcome.", ko:"천만에요.", model:"You're welcome."}]}},
+
+      /* ---------- Lesson 10 ---------- */
+      { num:10, title:"How Often Do You Eat Breakfast?", emoji:"⏰", hint:"빈도 묻고 답하기",
+        sentences:[
+          {e:"⏰", en:"How often do you exercise?", ko:"너는 얼마나 자주 운동하니?"},
+          {e:"🏃", en:"Twice a week.", ko:"일주일에 두 번."},
+          {e:"🪥", en:"How often do you brush your teeth?", ko:"너는 얼마나 자주 이를 닦니?"},
+          {e:"🦷", en:"Three times a day.", ko:"하루에 세 번."},
+          {e:"🍳", en:"How often do you eat breakfast?", ko:"너는 얼마나 자주 아침을 먹니?"},
+          {e:"🧼", en:"How often do you wash your hands?", ko:"너는 얼마나 자주 손을 씻니?"},
+          {e:"👍", en:"Good for you.", ko:"잘하고 있어."}],
+        dialog:{ scene:"건강 습관 인터뷰", emoji:"🎙️",
+          turns:[
+            {who:"npc", en:"How often do you exercise?", ko:"너는 얼마나 자주 운동하니?"},
+            {who:"you", en:"Twice a week.", ko:"일주일에 두 번.", model:"Twice a week."},
+            {who:"npc", en:"Good for you! How often do you eat breakfast?", ko:"잘하고 있네! 아침은 얼마나 자주 먹니?"},
+            {who:"you", en:"Every day.", ko:"매일.", model:"Every day."},
+            {who:"npc", en:"That's great. How often do you brush your teeth?", ko:"멋지다. 이는 얼마나 자주 닦니?"},
+            {who:"you", en:"Three times a day.", ko:"하루에 세 번.", model:"Three times a day."},
+            {who:"npc", en:"You're very healthy!", ko:"너 정말 건강하구나!"},
+            {who:"you", en:"Thank you!", ko:"고마워!", model:"Thank you."}]}},
+
+      /* ---------- Lesson 11 ---------- */
+      { num:11, title:"Do You Know about the Space Station?", emoji:"🛰️", hint:"알고 있는지 묻고 설명하기",
+        sentences:[
+          {e:"🛰️", en:"Do you know about the space station?", ko:"너는 우주 정거장에 대해 아니?"},
+          {e:"👍", en:"Yes, I know about it.", ko:"응, 알고 있어."},
+          {e:"🤷", en:"No, I have no idea.", ko:"아니, 전혀 몰라."},
+          {e:"🍱", en:"Do you know about space food?", ko:"너는 우주 식량에 대해 아니?"},
+          {e:"🥬", en:"Do you know about kimchi?", ko:"너는 김치에 대해 아니?"},
+          {e:"🏠", en:"It's a traditional Korean house.", ko:"그것은 한국의 전통 가옥이야."},
+          {e:"🥋", en:"It's a Korean sport.", ko:"그것은 한국의 운동 종목이야."}],
+        dialog:{ scene:"퀴즈 쇼에서", emoji:"📺",
+          turns:[
+            {who:"npc", en:"Do you know about the space station?", ko:"너는 우주 정거장에 대해 아니?"},
+            {who:"you", en:"Yes, I know about it.", ko:"응, 알고 있어.", model:"Yes, I know about it."},
+            {who:"npc", en:"Do you know about kimchi?", ko:"김치에 대해 아니?"},
+            {who:"you", en:"Yes, it's a traditional Korean food.", ko:"응, 그건 한국의 전통 음식이야.", model:"Yes, it's a traditional Korean food."},
+            {who:"npc", en:"Do you know about hanbok?", ko:"한복에 대해 아니?"},
+            {who:"you", en:"No, I have no idea.", ko:"아니, 전혀 몰라.", model:"No, I have no idea."},
+            {who:"npc", en:"It's traditional Korean clothes.", ko:"그건 한국의 전통 의복이야."},
+            {who:"you", en:"Oh, I see!", ko:"오, 그렇구나!", model:"Oh, I see."}]}},
+
+      /* ---------- Lesson 12 ---------- */
+      { num:12, title:"Why Are You Happy?", emoji:"😊", hint:"감정과 이유 말하기",
+        sentences:[
+          {e:"😊", en:"Why are you happy?", ko:"너는 왜 행복하니?"},
+          {e:"🏀", en:"Because I won the basketball game.", ko:"농구 경기에서 이겼기 때문이야."},
+          {e:"😢", en:"Why are you sad?", ko:"너는 왜 슬프니?"},
+          {e:"😴", en:"Why are you tired?", ko:"너는 왜 피곤하니?"},
+          {e:"🌙", en:"Because I stayed up late last night.", ko:"어젯밤에 늦게까지 깨어 있었기 때문이야."},
+          {e:"😟", en:"Why are you worried?", ko:"너는 왜 걱정하니?"},
+          {e:"🤝", en:"I feel the same.", ko:"나도 그렇게 느껴."}],
+        dialog:{ scene:"친구와 마음 나누기", emoji:"💛",
+          turns:[
+            {who:"npc", en:"You look happy. Why are you happy?", ko:"너 행복해 보여. 왜 행복하니?"},
+            {who:"you", en:"Because I won the basketball game.", ko:"농구 경기에서 이겨서 행복해.", model:"Because I won the basketball game."},
+            {who:"npc", en:"Wow, congratulations!", ko:"와, 축하해!"},
+            {who:"you", en:"Thank you!", ko:"고마워!", model:"Thank you."},
+            {who:"npc", en:"I'm worried because I have a math quiz.", ko:"나는 수학 시험이 있어서 걱정돼."},
+            {who:"you", en:"Don't worry. You'll do great.", ko:"걱정하지 마. 너 잘할 거야.", model:"Don't worry. You'll do great."},
+            {who:"npc", en:"Thanks. I feel better now.", ko:"고마워. 이제 기분이 나아졌어."},
+            {who:"you", en:"I'm glad.", ko:"다행이야.", model:"I'm glad."}]}}
+    ]}
+};
+
+/* ================= 상태 ================= */
+const $=id=>document.getElementById(id);
+let gradeKey=null, GD=null, lessonIdx=0, data=null, idx=0, totalStars=0;
+let recordings={};            // {idx: blobURL}
+let spoken=false;             // 현재 문장을 따라 말했는지(말하기 시도 여부)
+let dPos=0, dlg=null;
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+
+/* ================= TTS ================= */
+let voice=null;
+function pickVoice(){const vs=speechSynthesis.getVoices();
+  voice=vs.find(v=>/en[-_]US/i.test(v.lang)&&/female|samantha|zira|google/i.test(v.name))||vs.find(v=>/^en/i.test(v.lang))||vs[0]||null;}
+if('speechSynthesis'in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
+// 관사 a/an 은 강세가 없어 약하게(schwa) 발음돼 잘 안 들림.
+// 관사 '앞'에 아주 짧은 쉼을 넣으면, 강세는 뒤 명사에 실리고 a는 약하게 유지되면서도 또렷하게 들림.
+// (a '뒤'에 쉼을 넣으면 a가 구절 끝에 와서 너무 강하게 발음됨)
+function ttsTune(t){ return t.replace(/ (an?)\b/gi,', $1'); }
+function speak(text,cb){
+  if(!('speechSynthesis'in window)){cb&&cb();return;}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(ttsTune(text));
+  u.lang="en-US";u.rate=.8;u.pitch=1.05;if(voice)u.voice=voice;
+  $("mascot").textContent="🎵";
+  u.onend=()=>{$("mascot").textContent=OWL;cb&&cb();};
+  speechSynthesis.speak(u);
+}
+
+/* ================= 마이크: 인식 + 녹음 ================= */
+let recog=null, recording=false, mediaRec=null, chunks=[], micStream=null, onResultCb=null;
+async function ensureMic(){ if(micStream)return micStream;
+  micStream=await navigator.mediaDevices.getUserMedia({audio:true}); return micStream; }
+function setupRecog(){ if(!SR)return false; recog=new SR();
+  recog.lang="en-US";recog.interimResults=false;recog.maxAlternatives=3;
+  recog.onresult=e=>{const alts=Array.from(e.results[0]).map(a=>a.transcript);onResultCb&&onResultCb(alts);};
+  recog.onerror=e=>{stopRecUI();handleErr(e.error);};
+  recog.onend=()=>{stopMedia();stopRecUI();};
+  return true; }
+function handleErr(err){
+  const t=err==="not-allowed"||err==="service-not-allowed"?"🎤 마이크 사용을 허용해 주세요!"
+    :err==="no-speech"?"잘 못 들었어요. 한 번 더 말해 볼까요? 🙂":"다시 한 번 눌러서 말해 보세요!";
+  setFB(t);
+}
+function stopRecUI(){recording=false;
+  $("speakBtn").classList.remove("rec");$("speakBtn").innerHTML='<span class="ico">🎤</span> 말하기';
+  $("dSpeakBtn").classList.remove("rec");$("dSpeakBtn").innerHTML='<span class="ico">🎤</span> 말하기';}
+function stopMedia(){ if(mediaRec&&mediaRec.state!=="inactive"){try{mediaRec.stop();}catch(e){}} }
+
+async function startListen(btn, recordKey, cb){
+  if(!SR){setFB("이 브라우저는 음성 인식을 지원하지 않아요. Chrome에서 열어 보세요! 🌐");return;}
+  if(!recog)setupRecog();
+  if(recording){try{recog.stop();}catch(e){}return;}
+  onResultCb=cb;
+  chunks=[];
+  try{
+    const stream=await ensureMic();
+    mediaRec=new MediaRecorder(stream);
+    mediaRec.ondataavailable=ev=>{if(ev.data.size)chunks.push(ev.data);};
+    mediaRec.onstop=()=>{ if(recordKey!=null&&chunks.length){
+      const url=URL.createObjectURL(new Blob(chunks,{type:'audio/webm'}));
+      recordings[recordKey]=url; $("replayBtn").disabled=false; } };
+    mediaRec.start();
+  }catch(e){ /* 녹음 불가해도 인식은 시도 */ }
+  try{
+    recog.start();recording=true;
+    btn.classList.add("rec");btn.innerHTML='<span class="ico">●</span> 듣는 중…';
+    setFB("지금 말해 보세요! 🎤");$("heard").textContent="";$("stars").textContent="";
+    $("mascot").textContent="👂";
+  }catch(e){stopRecUI();setFB("다시 한 번 눌러 주세요!");}
+}
+
+/* ================= 채점 ================= */
+const norm=t=>t.toLowerCase().replace(/[^a-z0-9' ]/g," ").replace(/\s+/g," ").trim();
+function gradePractice(alts){
+  const s=data.sentences[idx], target=norm(s.en).split(" ");
+  let best={score:-1,said:"",hits:[]};
+  alts.forEach(raw=>{const said=norm(raw).split(" "),pool=said.slice();
+    const hits=target.map(w=>{const k=pool.indexOf(w);if(k>=0){pool.splice(k,1);return true;}return false;});
+    const score=hits.filter(Boolean).length/target.length;
+    if(score>best.score)best={score,said:raw,hits};});
+  $("sentence").querySelectorAll(".w").forEach((sp,i)=>{sp.classList.remove("hit","miss");sp.classList.add(best.hits[i]?"hit":"miss");});
+  const stars=best.score>=.85?3:best.score>=.6?2:best.score>=.3?1:0;
+  $("stars").textContent="⭐".repeat(stars)+"☆".repeat(3-stars);
+  $("heard").innerHTML='내가 말한 것: <b>'+best.said+'</b>';
+  let m;
+  if(stars===3){m="완벽해요! 발음이 아주 좋아요! 🎉";totalStars+=3;burst();$("mascot").textContent="🥳";}
+  else if(stars===2){m="아주 잘했어요! 거의 다 맞았어요! 👏";totalStars+=2;$("mascot").textContent="😄";}
+  else if(stars===1){m="좋아요! 천천히 다시 따라 말해 볼까요? 💪";totalStars+=1;$("mascot").textContent="🙂";}
+  else{m="괜찮아요! 🔊 듣기를 누르고 다시 도전해요! 🌱";}
+  setFB(m);$("totalStars").textContent=totalStars;
+  spoken=true;setNextLocked(false);
+  setTimeout(()=>{if(!recording)$("mascot").textContent=OWL;},2500);
+}
+function setFB(t){$("fbMsg").textContent=t;}
+// 따라 말하기 전에는 '다음'을 잠금. 마이크(SR) 미지원 환경에서는 잠그지 않음.
+function setNextLocked(locked){
+  const b=$("nextBtn");
+  b.classList.toggle("locked",locked);
+  b.innerHTML=locked?"다음 🔒":"다음 →";
+}
+
+/* ================= 화면 전환 ================= */
+function setAccent(g){
+  document.documentElement.style.setProperty('--accent',g.accent);
+  document.documentElement.style.setProperty('--accent-soft',g.accentSoft);
+}
+function show(sec){ ["home","lessonList","lesson"].forEach(s=>$(s).classList.toggle("hidden",s!==sec)); }
+
+function renderHome(){
+  show("home");
+  $("subtitle").textContent="";
+  setAccent({accent:'#54d6a3',accentSoft:'rgba(84,214,163,.16)'});
+  $("mascot").textContent=OWL;
+  const grid=$("gradeGrid");grid.innerHTML="";
+  [3,4,5,6].forEach(g=>{const G=GRADES[g];const ready=G.lessons.length>0;
+    const label=ready?("기초 회화 · "+G.lessons.length+"단원"):"준비 중";
+    const b=document.createElement("button");b.className="gcard g"+g;
+    b.innerHTML=(ready?"":'<span class="soon">준비 중</span>')+
+      `<span class="gemoji">${G.emoji}</span><div class="gnum">${g}학년</div><div class="gtopic">${label}</div>`;
+    b.onclick=()=>openGrade(g);grid.appendChild(b);});
+  $("homeNote").innerHTML=SR?"💡 마이크를 허용하면 발음 채점과 내 목소리 녹음이 돼요. <b>Chrome</b>을 추천해요!"
+    :"💡 발음 채점·녹음은 <b>Chrome</b>에서 가장 잘 작동해요!";
+}
+
+function openGrade(g){
+  gradeKey=g;GD=GRADES[g];setAccent(GD);
+  $("subtitle").textContent=g+"학년";
+  $("listCrumb").textContent=g+"학년 · 단원을 골라요";
+  show("lessonList");
+  const grid=$("lessonGrid");grid.innerHTML="";
+  const empty=GD.lessons.length===0;
+  $("emptyNote").classList.toggle("hidden",!empty);
+  grid.classList.toggle("hidden",empty);
+  $("mascot").textContent=OWL;
+  GD.lessons.forEach((L,i)=>{
+    const b=document.createElement("button");b.className="lcard";
+    b.innerHTML=`<span class="lnum">${L.num}</span><span class="lemoji">${L.emoji}</span>
+      <span class="ltext"><span class="lt">${L.title}</span><span class="lk">${L.hint}</span></span>
+      <span class="larrow">→</span>`;
+    b.onclick=()=>openLesson(i);grid.appendChild(b);
+  });
+}
+
+function openLesson(i){
+  lessonIdx=i;data=GD.lessons[i];idx=0;recordings={};
+  $("subtitle").textContent=gradeKey+"학년 · Lesson "+data.num;
+  $("lessonCrumb").textContent="Lesson "+data.num+" · "+data.title;
+  show("lesson");
+  showTab("practice");renderPractice();
+  $("dhTitle").textContent=data.dialog.scene;$("dhEmoji").textContent=data.dialog.emoji;
+  $("lessonNote").innerHTML="💡 문장을 모두 연습한 뒤 <b>💬 대화 도전</b>으로 넘어가 보세요!";
+}
+
+function showTab(which){
+  const p=which==="practice";
+  $("tabPractice").classList.toggle("active",p);$("tabDialog").classList.toggle("active",!p);
+  $("practice").classList.toggle("hidden",!p);$("pFooter").classList.toggle("hidden",!p);
+  $("dialog").classList.toggle("hidden",p);
+  if(!p)startDialog();
+}
+
+/* ---- practice render ---- */
+function renderPractice(){
+  const s=data.sentences[idx];
+  $("bigEmoji").textContent=s.e;
+  $("sentence").innerHTML=s.en.split(" ").map(w=>`<span class="w">${w}</span>`).join(" ");
+  $("ko").textContent=s.ko;
+  $("stars").textContent="";$("heard").textContent="";setFB("🔊 듣기 → 🎤 말하기로 따라 말하면 다음으로 넘어가요!");
+  $("replayBtn").disabled=!recordings[idx];
+  $("bar").style.width=(idx/data.sentences.length*100)+"%";
+  $("mascot").textContent=OWL;
+  spoken=false;setNextLocked(!!SR);
+}
+
+/* ---- dialog ---- */
+function startDialog(){
+  dlg=data.dialog;dPos=0;$("chat").innerHTML="";
+  $("doneBox").classList.add("hidden");$("dlgPrompt").classList.add("hidden");
+  step();
+}
+function appendBubble(who,en,ko){
+  const d=document.createElement("div");d.className="bubble "+(who==="npc"?"b-npc":"b-you");
+  d.innerHTML=(who==="npc"?`<div class="who">🦉 부엉이</div>`:"")
+    +`<div class="be">${en}</div>`+(ko?`<div class="bk">${ko}</div>`:"");
+  $("chat").appendChild(d);$("chat").scrollTop=$("chat").scrollHeight;
+}
+function step(){
+  if(dPos>=dlg.turns.length){finishDialog();return;}
+  const t=dlg.turns[dPos];
+  if(t.who==="npc"){
+    appendBubble("npc",t.en,t.ko);dPos++;
+    speak(t.en,()=>{ if(dPos<dlg.turns.length&&dlg.turns[dPos].who==="you")promptYou(); else step(); });
+  } else promptYou();
+}
+function promptYou(){
+  const t=dlg.turns[dPos];
+  const line=t.model||t.en;            // 빈칸(___) 대신 완성 문장을 보여 줘 따라 읽기 쉽게
+  $("myLine").textContent=line;
+  $("myKo").textContent="("+t.ko+")";
+  $("dlgPrompt").classList.remove("hidden");
+  $("chat").scrollTop=$("chat").scrollHeight;
+}
+function youTurnResult(alts){
+  const said=(alts&&alts[0])?alts[0]:dlg.turns[dPos].model;
+  appendBubble("you",said,"");
+  $("dlgPrompt").classList.add("hidden");dPos++;
+  $("mascot").textContent="😄";setTimeout(()=>$("mascot").textContent=OWL,1500);
+  setTimeout(step,500);
+}
+function finishDialog(){$("dlgPrompt").classList.add("hidden");$("doneBox").classList.remove("hidden");
+  totalStars+=5;$("totalStars").textContent=totalStars;burst();$("mascot").textContent="🏆";}
+
+/* ================= 색종이 ================= */
+const cv=$("confetti"),ctx=cv.getContext("2d");
+function fit(){cv.width=innerWidth;cv.height=innerHeight;}fit();addEventListener("resize",fit);
+function burst(){const cols=["#ffce3d","#5ec9f5","#ff7a6b","#54d6a3","#9b7bff"];
+  const parts=Array.from({length:90},()=>({x:innerWidth/2+(Math.random()-.5)*140,y:innerHeight*.3,vx:(Math.random()-.5)*9,vy:Math.random()*-11-4,g:.35,c:cols[Math.random()*cols.length|0],s:6+Math.random()*7,r:Math.random()*6,vr:(Math.random()-.5)*.4}));
+  let t0=null;(function run(t){if(!t0)t0=t;const el=t-t0;ctx.clearRect(0,0,cv.width,cv.height);
+    parts.forEach(p=>{p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s);ctx.restore();});
+    if(el<1700)requestAnimationFrame(run);else ctx.clearRect(0,0,cv.width,cv.height);})(performance.now());}
+
+/* ================= 이벤트 ================= */
+$("listenBtn").onclick=()=>speak(data.sentences[idx].en);
+$("speakBtn").onclick=()=>startListen($("speakBtn"),idx,gradePractice);
+$("replayBtn").onclick=()=>{const u=recordings[idx];if(u)new Audio(u).play();};
+$("nextBtn").onclick=()=>{
+  if(SR && !spoken){
+    setFB("먼저 🎤 말하기를 눌러 따라 말해 보세요! 🗣️");
+    $("speakBtn").classList.add("nudge");
+    setTimeout(()=>$("speakBtn").classList.remove("nudge"),550);
+    return;
+  }
+  idx=(idx+1)%data.sentences.length;renderPractice();
+};
+$("backHome").onclick=()=>{speechSynthesis.cancel();renderHome();};
+$("backList").onclick=()=>{speechSynthesis.cancel();openGrade(gradeKey);};
+$("tabPractice").onclick=()=>showTab("practice");
+$("tabDialog").onclick=()=>showTab("dialog");
+$("dListenBtn").onclick=()=>speak(dlg.turns[dPos].model||dlg.turns[dPos].en);
+$("dSpeakBtn").onclick=()=>startListen($("dSpeakBtn"),null,youTurnResult);
+$("dSkipBtn").onclick=()=>youTurnResult(null);
+$("restartDlg").onclick=startDialog;
+
+renderHome();
+</script>
+</body>
+</html>
